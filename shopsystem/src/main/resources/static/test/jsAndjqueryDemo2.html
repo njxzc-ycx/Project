@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--导入JQuery相关包-->
+    <script src="http://localhost:8088/shopsystem/js/jquery-3.3.1.js"></script>
+    <script>
+        /*JS方法 可以通过页面中设置的 onclick onblur等一系列操作 进行调用*/
+        function testBtn1() {
+            alert("点击了JS设置的按钮点击事件");
+        }
+        /*相当于 ready方法 在页面元素全部加载后 执行*/
+        $(function () {
+            /*$(#btn1)  #btn1 相当于选择器 通过JQ选择页面中id是btn1 的元素*/
+            $("#btn1").click(function () {
+                alert("点击了JQ设置的按钮点击事件");
+            });
+        });
+
+    </script>
+
+</head>
+<body>
+   <!--页面中有哪些常用的动态操作？ 按钮点击、图片点击、鼠标移入、移出等事件-->
+   <h2>没用使用JS或JQuery的按钮</h2>
+   <input type="button" value="这是input生成的按钮"><br/>
+   <button>这是标签按钮的button</button><br/>
+   <h2>使用Js或JQuery的按钮</h2>
+   <input type="button" value="这是input生成的按钮"/><br/>
+   <button onclick="testBtn1()">JS操作按钮</button><br/>
+   <button id="btn1">JQ操作按钮</button><br/>
+   <button id="btn2">JQ操作按钮btn2</button><br/>
+   <SCRIPT>
+       var btn2 = document.getElementById("btn2"); //获取id是btn2的页面元素
+       btn2.onclick = function () {
+           alert("js这是点击事件的第二种方式");
+       };
+   </SCRIPT>
+</body>
+</html>

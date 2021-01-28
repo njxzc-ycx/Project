@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/commodity/comDetail.css">
+    <script src="http://localhost:8088/shopsystem/js/jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            $(".imgSmall").mousemove(function () {
+                newImg = $(this)[0].src;//this 代表当前元素 获取当前元素中的图片
+                $(".imgBig").css("display","none");
+                $(".imgSmallToBing").css("display","block");
+                $(".imgSmallToBing").attr("src",newImg);
+            });
+            $(".imgSmall").mouseleave(function () {
+                $(".imgBig").css("display","block");
+                $(".imgSmallToBing").css("display","none");
+
+            });
+            $("#allCom").click(function(){
+                $('#con').load('http://localhost:8088/shopsystem/commodity/toAllComByPage');
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<ol class="breadcrumb">
+    <li><a href="#" id="allCom">商品信息</a></li>
+    <li class="active" >商品详情</li>
+</ol>
+    <div id="showCom">
+        <div id="showOne" style="float: left;margin-left: 3%;border: 2px red dashed;margin-top: 8px">
+            <img class="imgBig" th:src="${commodity.comImageMain}" width="320px" height="400px" style="float:left;">
+            <img class="imgSmallToBing" width="320px" height="400px" style="display: none" src="" >
+        </div>
+        <div id="otherImage">
+            <div th:each="url:${urlList}" style="float: left;margin-left: 5%;border: 2px red dashed;margin-top: 8px">
+                <img class="imgSmall" th:src="${url}" width="60px" height="60px" style="float:left;">
+            </div>
+        </div>
+    </div>
+    <div id="showInfo">
+        <div id="title">
+            商品名：<span th:text="${commodity.comName}"></span><br/>
+        </div>
+        <div id="price">
+
+        </div>
+    </div>
+    <div id="showOther"></div>
+
+</body>
+</html>
