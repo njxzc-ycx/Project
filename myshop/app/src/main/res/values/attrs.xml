@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditTextDeleteView">
+        <attr name="drawable" format="reference"></attr>
+        <attr name="hint" format="string"></attr>
+    </declare-styleable>
+</resources>

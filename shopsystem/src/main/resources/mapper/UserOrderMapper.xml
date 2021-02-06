@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.UserOrderMapper">
+
+    <!--订单基础 resultMap-->
+    <resultMap id="userOrderBaseResultMap" type="UserOrder">
+        <id property="orderId" column="ORDER_ID"></id>
+        <result property="userId" column="USER_ID"></result>
+        <result property="addressId" column="ADDRESS_ID"></result>
+        <result property="orderTime" column="ORDER_TIME"></result>
+        <result property="getTime" column="GET_TIME"></result>
+        <result property="total" column="TOTAL"></result>
+        <result property="note" column="NOTE"></result>
+    </resultMap>
+
+    <resultMap id="userAndOrderAndAddressResultMap" type="UserOrder" extends="userOrderBaseResultMap">
+        <!--一个订单 只可能对应一个地址 还需要在进行一次一对一映射-->
+        <association property="address" javaType="Address">
+            <id property="addressId" column="ADDRESS_ID"></id>
+            <result property="userId" column="USER_ID"></result>
+            <result property="address" column="ADDRESS"></result>
+            <result property="phone" column="PHONE"></result>
+            <result property="linkman" column="LINKMAN"></result>
+            <result property="defaultAddress" column="DEFAULT_ADDRESS"></result>
+            <result property="addressNote" column="ADDRESS_NOTE"></result>
+        </association>
+    </resultMap>
+
+    <!--订单详情-->
+    <resultMap id="orderDetailBaseResultMap" type="UserOrder" extends="userAndOrderAndAddressResultMap">
+        <!--订单对应订单详情 一对多-->
+        <collection property="orderDetailList" ofType="OrderDetail">
+            <id property="orderDetailId" column="ORDER_DETAIL_ID"></id>
+            <result property="orderId" column="ORDER_ID"></result>
+            <result property="comId" column="COM_ID"></result>
+            <result property="buyCount" column="BUY_COUNT"></result>
+        <!--详情对应商品 一对一-->
+        <association property="commodity" javaType="Commodity">
+            <id property="comId" column="COM_ID"/>
+            <result property="comName" column="COM_NAME"/>
+            <result property="primePrice" column="PRIME_PRICE"/>
+            <result property="currentPrice" column="CURRENT_PRICE"/>
+            <result property="des" column="des"/>
+            <result property="flag" column="flag"/>
+            <result property="count" column="count"/>
+            <result property="isNew" column="IS_NEW"/>
+            <result property="isUrgent" column="IS_URGENT"/>
+            <result property="isRecommend" column="IS_RECOMMEND"/>
+            <result property="hits" column="hits"/>
+            <result property="inTime" column="IN_TIME"/>
+            <result property="onTime" column="ON_TIME"/>
+            <result property="reviews" column="reviews"/>
+            <result property="collects" column="collects"/>
+            <result property="comImageMain" column="COM_IMAGE_MAIN"/>
+            <result property="comImageOther" column="COM_IMAGE_OTHER"/>
+        </association>
+        </collection>
+    </resultMap>
+
+    <select id="findOrderAndAddress" parameterType="int" resultMap="orderDetailBaseResultMap">
+        SELECT o.ORDER_ID,o.ORDER_TIME,o.TOTAL,o.GET_TIME,a.ADDRESS_ID,a.ADDRESS,a.PHONE,a.LINKMAN,
+        od.ORDER_DETAIL_ID,od.BUY_COUNT,c.COM_ID,c.COM_NAME,c.CURRENT_PRICE,c.COM_IMAGE_MAIN
+        FROM userorder o JOIN address a ON(a.ADDRESS_ID=o.ADDRESS_ID)
+        JOIN orderdetail od ON(od.ORDER_ID=o.ORDER_ID)
+        JOIN commodity c ON(c.COM_ID=od.COM_ID)
+        WHERE o.USER_ID = #{VALUE};
+    </select>
+
+    <select id="findOrderAndAddressAndDesc" parameterType="int" resultMap="orderDetailBaseResultMap">
+        SELECT o.ORDER_ID,o.ORDER_TIME,o.TOTAL,o.GET_TIME,a.ADDRESS_ID,a.ADDRESS,a.PHONE,a.LINKMAN,
+        od.ORDER_DETAIL_ID,od.BUY_COUNT,c.COM_ID,c.COM_NAME,c.CURRENT_PRICE,c.COM_IMAGE_MAIN
+        FROM userorder o JOIN address a ON(a.ADDRESS_ID=o.ADDRESS_ID)
+        JOIN orderdetail od ON(od.ORDER_ID=o.ORDER_ID)
+        JOIN commodity c ON(c.COM_ID=od.COM_ID)
+        WHERE o.ORDER_ID = #{VALUE};
+    </select>
+
+    <insert id="insertUserOrder" parameterType="UserOrder">
+        INSERT INTO userorder(ORDER_ID,USER_ID,ADDRESS_ID,ORDER_TIME,GET_TIME,TOTAL,NOTE)
+        VALUES (#{orderId},#{userId},#{addressId},#{orderTime},#{getTime},#{total},#{note})
+    </insert>
+
+
+</mapper>

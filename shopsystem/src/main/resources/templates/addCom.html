@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="http://localhost:8088/shopsystem/js/moment-with-locales.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script>
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'YYYY-MM-DD',
+                locale: moment.locale('zh-cn')
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:ss',
+                locale: moment.locale('zh-cn')
+            });
+        });
+    </script>
+</head>
+<body>
+<form action="http://localhost:8088/shopsystem/commodity/addCom3" method="post" enctype="multipart/form-data">
+    商品名：<input name="comName" type="text" placeholder="请输入商品名"/><br/>
+    商品原价：<input name="primePrice" type="text" placeholder="请输入原价"/><br/>
+    商品现价：<input name="currentPrice" type="text" placeholder="请输入现价"/><br/>
+    发布时间：<!-- input name="inTime" type="text"/><br/>-->
+    <div class='col-sm-6'>
+        <div class="form-group">
+            <label>选择日期+时间：</label>
+            <!--指定 date标记-->
+            <div class='input-group date' id='datetimepicker2'>
+                <input type='text' class="form-control" name="inTime"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    选择商品种类：<label><input type="radio" value="1" name="typesId" checked>华为手机</label>
+    <label><input type="radio" value="2" name="typesId">苹果手机</label>
+    <label><input type="radio" value="3" name="typesId">小米手机</label><br/>
+    商品描述：<input name="des" type="text" placeholder="请输入商品描述"/><br/>
+    商品数量：<input name="count" type="text" placeholder="请输入数量"/><br/>
+    商品主图片：<input type="file" name="imageMainFile"/><br/>
+    商品其他图片：（最多4张）
+    <input type="file" name="imageOtherFiles"/><br/>
+    <input type="file" name="imageOtherFiles"/><br/>
+    <input type="file" name="imageOtherFiles"/><br/>
+    <input type="file" name="imageOtherFiles"/><br/>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

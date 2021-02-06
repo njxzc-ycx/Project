@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--导入JQuery相关包-->
+    <script src="http://localhost:8088/shopsystem/js/jquery-3.3.1.js"></script>
+    <script>
+        $(function () {
+            $(".son").bind("mousemove",function (e) {
+                var id = e.currentTarget.id;//获取需要操作的div的id
+                var color = "red";
+                //通过id 选择器 给指定 div 设置样式
+                //选择器.css（属性名，属性） 设置背景色
+                switch (id) {
+                    case "tom":
+                        color = "blue";
+                        break;
+                    case "jack":
+                        color = "red";
+                        break;
+                    default:
+                        color = "green";
+                        break;
+                }
+                $("#"+id).css("background-color",color);//设置单个css样式
+                $("#"+id).empty();//清空当前元素中所有子元素
+                $("#"+id).append("<span>"+id+"</span>");
+                $("#"+id).css({
+                    "text-align":"center",
+                    "font-size":"40px",
+                })
+            });
+            $(".son").bind("mouseleave",function (e) {
+                var id = e.currentTarget.id;//获取需要操作的div的id
+                var color = "white";
+                $("#"+id).css("background-color",color);
+                $("#"+id).empty();//清空当前元素中所有子元素
+            });
+        });
+    </script>
+    <STYLE>
+        /*css中 #father是id选择器 */
+        #father{
+            border: 2px blue dashed;
+            float: left;
+        }
+        /*css 中 .son是class选择器 （类选择器） 将所有class="son" 的内容进行操作*/
+        .son{
+            border: 1px black dashed;
+            width: 400px;
+            height: 300px;
+            float: left;
+            margin: 10px;
+        }
+    </STYLE>
+</head>
+<body>
+    <!--id一般情况下一个页面中的元素 id都不会相同 但是class可以相同-->
+    <div id="father">
+        <div class="son" id="tom" >
+
+        </div>
+        <div class="son" id="jack">
+
+        </div>
+        <div class="son" id="mike">
+
+        </div>
+    </div>
+</body>
+</html>
