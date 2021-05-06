@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/white" /><!--按下时的背景-->
+    <item android:state_focused="true" android:drawable="@drawable/white" /><!--获得焦点时的背景-->
+    <item android:state_selected="true" android:drawable="@drawable/white" /><!--选中状态的背景-->
+</selector>

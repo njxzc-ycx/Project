@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout Layui</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+</head>
+<body style="text-align: center">
+
+
+<div class="layui-upload-drag" id="test10">
+    <i class="layui-icon"></i>
+    <p>点击上传，或将文件拖拽到此处</p>
+    <div class="layui-hide" id="uploadDemoView">
+        <hr>
+        <img src="" alt="上传成功后渲染" style="max-width: 196px">
+    </div>
+</div>
+<div style="margin-top: 10px">
+<button type="button" class="layui-btn" id="test2">开始上传</button>
+</div>
+
+
+
+<script>
+    layui.use('upload', function(){
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        upload.render({
+            elem: '#test10'
+            ,url: 'http://localhost:8088/shopsystem/slideshow/addSlideshow' //改成您自己的上传接口
+            ,auto:false
+            ,exts: 'jpg|gif|png|jpeg'
+            ,bindAction: '#test2'
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                else{
+                    layer.msg('上传成功');
+                    layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.file);
+                }
+
+
+            }
+        });
+    });
+
+
+</script>
+
+</body>
+</html>

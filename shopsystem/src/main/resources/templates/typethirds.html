@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+    <script type="text/javascript" th:inline="none" >
+
+        layui.use('table', function(){
+            var table = layui.table;
+            var secondId = $("#secondId").val();
+            table.render({
+                elem: '#datas'
+                ,url:'http://localhost:8088/shopsystem/type/findAllTypethirdBySecondId?secondId='+secondId
+                ,limit:3
+                ,cols: [[
+                    {field:'thirdId', title: '编号', sort: true}, //sort：true页面可进行排序操作
+                    {field:'thirdName', title: '名称'}, //sort：true页面可进行排序操作
+                    {field:'thirdPicture', title: '图片',templet:function (d) {
+                            return '<div ><img src='+d.thirdPicture+' width="100px" height="100px"  onclick="showBigImage(this)"></div>'
+                        }},
+                    {field:'manage', title: '操作',templet:function (d) {
+                            return '<div><button class="layui-btn layui-btn-radius layui-btn-warm" onclick="updateModel('+d.thirdId+',\''+d.thirdName+'\',\''+d.thirdPicture+'\')" >修改</button>' +
+                                '<button  class="layui-btn layui-btn-radius layui-btn-danger" onclick="del_typethird(this,'+d.thirdId+')">删除</button></div>'
+                        }},
+
+
+
+                ]]
+                ,page: true
+                ,done:function(res, curr, count){
+                    //数据的回调用，可不写
+                }
+            });
+        });
+
+        //显示大图片
+        function showBigImage(e) {
+            layer.open({
+                type: 1,
+                title: false,
+                closeBtn: 0,
+                shadeClose: true, //点击阴影关闭
+                area: [$(e).width + 'px', $(e).height + 'px'], //宽高
+                content: "<img width='500px' height='500px' src=" + $(e).attr('src') + "/>"
+            });
+        }
+
+
+    </script>
+
+</head>
+<body>
+<div class="layui-card-body " style="background: #FFFFFF">
+    <div class="layui-inline layui-show-xs-block">
+    <button class="layui-btn"  lay-submit  onclick="addModel()">添加</button>
+    </div>
+</div>
+<div id="showItem" class="table-responsive" style="width:100%"  >
+    <table class="table table-hover" id="datas" lay-filter="test"></table>
+</div>
+
+<input id="secondId" hidden="hidden" th:value="${secondId}" >
+
+
+</body>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+        min-width: 180px;
+        max-width: 300px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .layui-table img{
+        max-width:300px
+    }
+</style>
+
+<script>
+
+    function del_typethird(obj,id){
+        layer.confirm('确认要删除编号：'+id+'的三级分类吗？',function(index){
+            //发异步下架数据
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8088/shopsystem/type/deleteTypethird",
+                data:{'thirdId':id},
+                success:function () {
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        table.reload('datas', {
+                            page: {
+                                curr: 1
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('删除失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+
+
+    function updateModel(thirdId,thirdName,thirdPicture){
+        $("#thirdId").val(thirdId);
+        $("#thirdName").val(thirdName);
+        $("#thirdPicture").attr('src',thirdPicture);
+        layui.use(['layer', 'upload'],function () {
+            var layer = layui.layer,$=layui.$;
+            layer.open({
+                type:1,//类型
+                area:['500px','500px'],//定义宽和高
+                title:'修改',//题目
+                shadeClose:false,//点击遮罩层关闭
+                content: $('#updateContent')//打开的内容
+            });
+            var $ = layui.jquery
+                ,upload = layui.upload;
+            upload.render({
+                elem: '#update2'
+                ,url: 'http://localhost:8088/shopsystem/type/updateTypethird'
+                ,auto:false
+                ,exts: 'jpg|gif|png|jpeg'
+                ,bindAction: '#submit'
+                ,before: function(obj){
+                    this.data={
+                        'thirdName':$("#thirdName").val(),
+                        'thirdId':$("#thirdId").val()
+                    }
+                }
+                ,done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    else{
+                        layer.msg('上传成功');
+                        layui.$('#uploadDemoView2').find('img').attr('src', res.file);
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                            table.reload('datas', {
+                                page: {
+                                    curr: currpage
+                                }
+                            });
+                        });
+
+                    }
+
+
+                }
+            });
+        })
+
+    }
+
+
+    function addModel(){
+        $("#img").attr('src','');
+        $("#addThirdName").val(null);
+        layui.use(['layer', 'upload'],function () {
+            var layer = layui.layer,$=layui.$;
+            layer.open({
+                type:1,//类型
+                area:['500px','500px'],//定义宽和高
+                title:'新增三级分类',//题目
+                shadeClose:false,//点击遮罩层关闭
+                content: $('#addContent')//打开的内容
+            });
+            var $ = layui.jquery
+                ,upload = layui.upload;
+            upload.render({
+                elem: '#test10'
+                ,url: 'http://localhost:8088/shopsystem/type/addTypethird'
+                ,auto:false
+                ,exts: 'jpg|gif|png|jpeg'
+                ,bindAction: '#test2'
+                ,before: function(obj){
+                    this.data={
+                        'thirdName':$("#addThirdName").val(),
+                        'secondId':$("#secondId").val()
+                    }
+                }
+                ,done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    else{
+                        layer.msg('上传成功');
+                        layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.file);
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                            table.reload('datas', {
+                                page: {
+                                    curr: currpage
+                                }
+                            });
+                        });
+
+                    }
+
+
+                }
+            });
+        })
+    }
+
+
+
+
+</script>
+
+
+<div id="updateContent" style="display: none;text-align: center">
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <div style="float: left"><span>编号：</span></div>
+        <div style="float: left"><input class="layui-input"  autocomplete="off" readonly name="thirdId" id="thirdId"></div>
+    </div></br>
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <div style="float: left;"><span>名称：</span></div>
+        <div style="float: left"><input class="layui-input"  autocomplete="off" placeholder="请输入名称" name="thirdName" id="thirdName"></div>
+    </div></br>
+    <div class="layui-upload-drag" id="update2">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+        <div id="uploadDemoView2">
+            <hr>
+            <img id="thirdPicture" src=""  style="max-width: 100px">
+        </div>
+    </div></br>
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <button class="layui-btn"  id="submit">提交</button>
+    </div></br>
+</div>
+
+<div id="addContent" style="display: none;text-align: center">
+    <div class="layui-upload-drag" id="test10">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+        <div class="layui-hide" id="uploadDemoView">
+            <hr>
+            <img id="img" src=""  style="max-width: 100px">
+        </div>
+    </div>
+    </br>
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <div style="float: left;"><span>名称：</span></div>
+        <div style="float: left"><input class="layui-input"  autocomplete="off" placeholder="请输入名称" name="addThirdName" id="addThirdName"></div>
+    </div></br>
+
+    <div style="margin-top: 10px">
+        <button type="button" class="layui-btn" id="test2">提交</button>
+    </div>
+</div>
+
+
+</html>

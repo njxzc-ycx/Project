@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_update_school"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/white"
+    tools:context="com.njxzc.myshop.personal_activity.UpdateSchoolActivity">
+
+    <ImageView
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_width="45px"
+        android:layout_height="50px"
+        android:src="@drawable/back"
+        android:id="@+id/back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:onClick="backPersonalInfo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@drawable/black"
+        android:text="选择学校"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_updateSchool" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/tv_updateSchool"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divide"
+        android:orientation="horizontal">
+
+        <ListView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_citys"
+            android:scrollbars="none"
+            android:listSelector="@drawable/transparent">
+        </ListView>
+
+        <ListView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_schools"
+            android:divider="#00000000"
+            android:scrollbars="none"
+            android:listSelector="@drawable/transparent">
+
+        </ListView>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

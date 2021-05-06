@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="http://localhost:8088/shopsystem/css/commodity/comDetail.css">-->
+    <script src="http://localhost:8088/shopsystem/js/jquery-1.8.3.js"></script>
+    <script>
+        $(function () {
+            $(".imgSmall").mousemove(function () {
+                newImg = $(this)[0].src;//this 代表当前元素 获取当前元素中的图片
+                $(".imgBig").css("display","none");
+                $(".imgSmallToBing").css("display","block");
+                $(this).css("border","2px red solid");
+                $(".imgSmallToBing").attr("src",newImg);
+            });
+            $(".imgSmall").mouseleave(function () {
+                $(".imgBig").css("display","block");
+                $(this).css("border","1px #E0E0E0 solid");
+                $(".imgSmallToBing").css("display","none");
+
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+    <div id="showCom" >
+        <div id="showOne" style="float: left;margin-left: 3%;border: 1px #F0F0F0 solid;margin-top: 8px">
+            <img class="imgBig" th:src="${commodity.comImageMain}" width="400px" height="480px" style="float:left;">
+            <img class="imgSmallToBing" width="400px" height="480px" style="display: none" src="" >
+        </div>
+        <div id="otherImage">
+            <div th:each="url:${urlList}" style="float: left;margin-left: 5%;border: 1px #E0E0E0 solid;margin-top: 8px">
+                <img class="imgSmall" th:src="${url}" width="60px" height="70px" style="float:left;">
+            </div>
+        </div>
+    </div>
+    <div id="showInfo">
+        <div style="font-family:'Microsoft YaHei UI';color: #666;font-size: 20px;font-weight: bold">
+            <span th:text="${commodity.comName}"></span><br/>
+        </div>
+        <div style="line-height: 30px">
+            <span th:text="${commodity.des}"></span><br/>
+        </div>
+        <div style="width: 100%;background:#f3f3f3;height: 120px;">
+            分类：<span th:text="${commodity.typethird.thirdName}"></span></br>
+            现价：<span style="color: red;" th:text="'￥'+${commodity.currentPrice}"></span>&nbsp;&nbsp;&nbsp;
+            原价：<span th:text="'￥'+${commodity.primePrice}"></span></br>
+            数量：<span th:text="${commodity.count}+'件'"></span></br>
+        </div>
+        <div>
+            点击数：<span th:text="${commodity.hits}"></span>&nbsp;&nbsp;&nbsp;
+            收藏数：<span th:text="${commodity.collects}"></span>
+        </div>
+        <div>
+            发布时间：<span th:text="${commodity.inTime}"></span><br/>
+        </div>
+
+    </div>
+
+
+</body>
+<STYLE>
+    #showCom{
+        text-align: center;
+        width:32%;
+        height: 590px;
+        border-top: 1px #97CBFF solid;
+        border-left: 1px #97CBFF solid;
+        border-bottom: 1px #97CBFF solid;
+        border-right: 1px #97CBFF solid;
+        float: left;
+        margin-left: 20%;
+        position: relative;
+    }
+    #showInfo{
+        line-height:40px;
+        font-size: 18px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        padding: 10px;
+        width: 30%;
+        height: 590px;
+        border: 1px #97CBFF solid;
+        float: left;
+    }
+
+    #otherImage{
+        align-content: center;
+        width: 100%;
+        height: 90px;
+        border-top: 1px #97CBFF solid;
+        border-left: 1px #97CBFF solid;
+        border-bottom: 1px #97CBFF solid;
+        margin-bottom: 0;
+        float: left;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        text-align: center;
+    }
+</STYLE>
+</html>

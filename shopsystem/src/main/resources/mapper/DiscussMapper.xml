@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.DiscussMapper">
+
+    <select id="findDiscussCount" resultType="_int" parameterType="map">
+        SELECT COUNT(*) FROM discuss
+    </select>
+
+    <resultMap id="baseDiscussResultMap" type="Discuss">
+        <id property="discussId" column="DISCUSS_ID"></id>
+        <result property="discussDes" column="DISCUSS_DES"></result>
+        <result property="discussImages" column="DISCUSS_IMAGES"></result>
+        <result property="discussUp" column="DISCUSS_UP"></result>
+        <result property="discussComments" column="DISCUSS_COMMENTS"></result>
+        <result property="discussTime" column="DISCUSS_TIME"></result>
+        <result property="discussHits" column="DISCUSS_HITS"></result>
+        <result property="userId" column="USER_ID"></result>
+        <result property="isAnonymity" column="IS_ANONYMOUS"></result>
+        <result property="flag" column="FLAG"></result>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <id property="userId" column="USER_ID"></id>
+            <result property="realName" column="REAL_NAME"></result>
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="school" column="SCHOOL"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+        </association>
+        <association property="discussType" javaType="com.njxzc.shopsystem.pojo.DiscussType">
+            <id property="discussTypeId" column="DISCUSS_TYPE_ID"></id>
+            <result property="discussTypeName" column="DISCUSS_TYPE_NAME"></result>
+
+        </association>
+    </resultMap>
+
+    <resultMap id="baseDiscussTypeResultMap" type="DiscussType">
+        <id property="discussTypeId" column="DISCUSS_TYPE_ID"></id>
+        <result property="discussTypeName" column="DISCUSS_TYPE_NAME"></result>
+
+    </resultMap>
+
+    <select id="findDiscussByUserId" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.USER_ID = #{userId} AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID AND d.FLAG = 1 AND d.IS_ANONYMOUS = 0 ORDER BY d.DISCUSS_ID DESC
+    </select>
+
+    <select id="findMyDiscussByUserId" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.USER_ID = #{userId} AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID AND d.FLAG = 1 ORDER BY d.DISCUSS_ID DESC
+    </select>
+
+    <select id="findDiscussByDiscussId" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.DISCUSS_ID = #{discussId} AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID
+    </select>
+
+
+    <select id="findAllDiscuss" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID AND d.FLAG = 1 ORDER BY d.DISCUSS_ID DESC
+    </select>
+
+    <select id="findDiscussByType" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID AND d.DISCUSS_TYPE_ID = #{typeId} AND d.FLAG = 1 ORDER BY d.DISCUSS_ID DESC
+    </select>
+
+    <select id="findAllDiscussType" resultMap="baseDiscussTypeResultMap" >
+        SELECT DISCUSS_TYPE_ID,DISCUSS_TYPE_Name FROM discusstype
+    </select>
+
+
+    <insert id="addDiscuss"  parameterType="Discuss">
+        INSERT INTO discuss(DISCUSS_DES,DISCUSS_IMAGES,DISCUSS_UP,DISCUSS_COMMENTS,DISCUSS_TIME,DISCUSS_HITS,USER_ID,DISCUSS_TYPE_ID,IS_ANONYMOUS,FLAG)
+        VALUES (#{discussDes},#{discussImages},0,0,#{discussTime},0,#{userId},#{typeId},#{isAnonymity},1)
+    </insert>
+
+    <update id="addDisscussUp" parameterType="Discuss">
+        UPDATE discuss SET DISCUSS_UP = DISCUSS_UP+1 WHERE DISCUSS_ID = #{discussId}
+    </update>
+
+    <update id="addDisscussComments" parameterType="Discuss">
+        UPDATE discuss SET DISCUSS_COMMENTS = DISCUSS_COMMENTS+1 WHERE DISCUSS_ID = #{discussId}
+    </update>
+
+    <update id="addDisscussHits" parameterType="Discuss">
+        UPDATE discuss SET DISCUSS_HITS = DISCUSS_HITS+1 WHERE DISCUSS_ID = #{discussId}
+    </update>
+
+    <select id="findAllDiscusses" resultMap="baseDiscussResultMap" parameterType="Discuss">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID
+    </select>
+
+    <update id="updateDiscussFlag" parameterType="_int">
+        UPDATE discuss SET FLAG = #{flag} WHERE DISCUSS_ID = #{discussId}
+    </update>
+
+    <update id="deleteDiscuss" parameterType="_int">
+        UPDATE discuss SET FLAG = 2 WHERE DISCUSS_ID = #{discussId}
+    </update>
+
+    <select id="findDiscussesByKey" resultMap="baseDiscussResultMap" parameterType="String">
+        SELECT
+         d.DISCUSS_ID,
+         d.DISCUSS_DES,
+         d.DISCUSS_IMAGES,
+         d.DISCUSS_UP,
+         d.DISCUSS_COMMENTS,
+         d.DISCUSS_TIME,
+         d.DISCUSS_HITS,
+         d.USER_ID,
+         d.IS_ANONYMOUS,
+         d.FLAG,
+         u.PROFILE_PHOTO,
+         u.NICK_NAME,
+         u.SEX,
+         u.USER_ID,
+         u.SCHOOL,
+         dt.DISCUSS_TYPE_ID,
+         dt.DISCUSS_TYPE_NAME
+         FROM discuss d,user u,discusstype dt WHERE d.USER_ID = u.USER_ID AND d.DISCUSS_TYPE_ID = dt.DISCUSS_TYPE_ID
+        <if test="flag !='' and flag != null and flag != 0">
+            AND d.FLAG = #{flag}
+        </if>
+         <if test="discussId !='' and discussId != null and discussId != 0">
+             AND d.DISCUSS_ID = #{discussId}
+         </if>
+        <if test="typeId !='' and typeId != null and typeId != 0">
+             AND d.DISCUSS_TYPE_ID = #{typeId}
+         </if>
+        <if test="nickName !='' and nickName != null">
+             AND d.USER_ID = any(SELECT USER_ID FROM user WHERE NICK_NAME LIKE '%${nickName}%')
+         </if>
+        <if test="key !='' and key != null">
+             AND d.DISCUSS_DES LIKE '%${key}%'
+         </if>
+    </select>
+
+
+
+
+
+
+
+
+
+</mapper>

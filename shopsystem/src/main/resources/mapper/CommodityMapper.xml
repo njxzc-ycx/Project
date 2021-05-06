@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.CommodityMapper">
+
+    <select id="findAllComCounts" resultType="_int" parameterType="map">
+        SELECT COUNT(*) FROM commodity;
+    </select>
+
+    <select id="findComCountByFlag" resultType="_int" parameterType="map">
+        SELECT COUNT(*) FROM commodity WHERE FLAG = 1;
+    </select>
+
+    <resultMap id="commodityResultMap" type="com.njxzc.shopsystem.pojo.Commodity">
+        <id property="comId" column="COM_ID"/>
+        <result property="comName" column="COM_NAME"/>
+        <result property="sellerId" column="SELLER_ID"/>
+        <result property="primePrice" column="PRIME_PRICE"/>
+        <result property="currentPrice" column="CURRENT_PRICE"/>
+        <result property="des" column="des"/>
+        <result property="flag" column="flag"/>
+        <result property="count" column="count"/>
+        <result property="isNew" column="IS_NEW"/>
+        <result property="isBargain" column="IS_BARGAIN"/>
+        <result property="isUrgent" column="IS_URGENT"/>
+        <result property="isRecommend" column="IS_RECOMMEND"/>
+        <result property="hits" column="hits"/>
+        <result property="inTime" column="IN_TIME"/>
+        <result property="onTime" column="ON_TIME"/>
+        <result property="reviews" column="reviews"/>
+        <result property="collects" column="collects"/>
+        <result property="comImageMain" column="COM_IMAGE_MAIN"/>
+        <result property="comImageOther" column="COM_IMAGE_OTHER"/>
+        <result property="updateTime" column="UPDATE_TIME"/>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="realName" column="REAL_NAME"></result>
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="school" column="SCHOOL"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+            <result property="userName" column="USER_NAME"></result>
+        </association>
+        <association property="typethird" javaType="com.njxzc.shopsystem.pojo.Typethird">
+            <id property="thirdId" column="THIRD_ID"></id>
+            <result property="thirdName" column="THIRD_NAME"></result>
+            <result property="thirdPicture" column="THIRD_PICTURE"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="findAllCommodity" resultMap="commodityResultMap" parameterType="map" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_BARGAIN,
+        c.IS_NEW,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+		u.REAL_NAME,
+		u.NICK_NAME,
+		u.SCHOOL,
+		u.SEX,
+		u.PROFILE_PHOTO,
+		u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID and c.FLAG=1 ORDER BY c.COM_ID DESC
+    </select>
+
+    <select id="findAllCommodityBySchool" resultMap="commodityResultMap" parameterType="map" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_BARGAIN,
+        c.IS_NEW,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+		u.REAL_NAME,
+		u.NICK_NAME,
+		u.SCHOOL,
+		u.SEX,
+		u.PROFILE_PHOTO,
+		u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID and u.SCHOOL = #{school} and c.FLAG=1 ORDER BY c.COM_ID DESC
+    </select>
+
+    <select id="findAllComByPage" resultMap="commodityResultMap" parameterType="map" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_NEW,
+        c.IS_BARGAIN,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+        u.REAL_NAME,
+        u.NICK_NAME,
+        u.SCHOOL,
+        u.SEX,
+        u.PROFILE_PHOTO,
+        u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID
+        <if test="startIndex != null and pageSize != null">
+            limit #{startIndex}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="findAllCommoditys" resultMap="commodityResultMap" parameterType="map" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_NEW,
+        c.IS_BARGAIN,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+        u.REAL_NAME,
+        u.NICK_NAME,
+        u.SCHOOL,
+        u.SEX,
+        u.PROFILE_PHOTO,
+        u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID
+    </select>
+
+    <select id="findallAuditCommoditys" resultMap="commodityResultMap" parameterType="map" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_NEW,
+        c.IS_BARGAIN,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+        u.REAL_NAME,
+        u.NICK_NAME,
+        u.SCHOOL,
+        u.SEX,
+        u.PROFILE_PHOTO,
+        u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  AND u.USER_ID=c.SELLER_ID AND c.FLAG=0
+    </select>
+
+    <select id="findCommodityByHits" resultMap="commodityResultMap" parameterType="map" >
+        <include refid="allColumns"></include> ORDER BY HITS DESC LIMIT 0,3
+    </select>
+
+    <sql id="allColumns">
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_BARGAIN,
+        c.IS_NEW,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+		u.REAL_NAME,
+		u.NICK_NAME,
+		u.SCHOOL,
+		u.SEX,
+		u.PROFILE_PHOTO,
+		u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID and u.USER_ID=c.SELLER_ID
+    </sql>
+
+    <select id="findCommodityByComId" resultMap="commodityResultMap" parameterType="int">
+        <include refid="allColumns"></include> AND COM_ID = #{VALUE}
+    </select>
+    
+    <insert id="addCommodity" parameterType="Commodity">
+        INSERT INTO commodity(SELLER_ID,COM_NAME,PRIME_PRICE,CURRENT_PRICE,DES,FLAG,COUNT,TYPE_THIRD_ID,IN_TIME,COM_IMAGE_MAIN,COM_IMAGE_OTHER,IS_BARGAIN)
+         VALUES (#{sellerId},#{comName},#{primePrice},#{currentPrice},#{des},0,#{count},#{typesId},#{inTime},#{comImageMain},#{comImageOther},#{isBargain})
+    </insert>
+
+    <delete id="deleteCommodity" parameterType="int">
+        DELETE FROM commodity WHERE COM_ID = #{VALUE}
+    </delete>
+
+    <!--根据条件查询商品信息-->
+    <select id="findAllComByCondition" resultMap="commodityResultMap" parameterType="map">
+        <include refid="allColumns"></include>
+        <!--自动的将sql 片段中第一个 and 去除-->
+        <include refid="comCondition"></include>
+
+    </select>
+
+    <!--查询条件有多个，可以自由拼接
+    1.如果用户录入商品上架状态与否，则根据状态查询
+    2.如果用户录入，商品种类、商品名等，则进行多条件查询-->
+    <sql id="comCondition">
+        <!--如果参数得到的商品编号是非0 非'' 非null 则添加判断条件(int)-->
+        <if test="comId!=0 and comId!='' and comId!=null">
+            AND COM_ID = #{comId}
+        </if>
+        <!--如果参数得到的商品状态是非'' 非null 则添加判断条件(int)-->
+        <if test="flag!='' and flag!=null">
+            AND FLAG = #{flag}
+        </if>
+        <!--如果参数得到的商品名是非'' 非null 则添加判断条件(string) 商品名可能会是关键字检索的模糊查询-->
+        <if test="comName!='' and comName!=null">
+            AND COM_NAME LIKE '%${comName}%'
+        </if>
+    </sql>
+
+    <update id="updateComFlagByComId" parameterType="int">
+        UPDATE commodity SET FLAG = #{flag} WHERE COM_ID = #{comId}
+    </update>
+    <!--有可能有多条件修改，仿照上面 where片段 处理-->
+
+    <update id="updateComByComId" parameterType="Commodity">
+        UPDATE commodity
+        <!--set标签可以自动的去掉最后一个逗号-->
+        <set>
+            <include refid="updateComSetCondition"></include>
+        </set>
+        WHERE COM_ID=#{comId}
+    </update>
+    <!--修改需要使用的修改片段-->
+    <sql id="updateComSetCondition">
+        <if test="comName!='' and comName!=null">
+            COM_NAME = #{comName},
+        </if>
+        <if test="primePrice!=0 and primePrice!='' and primePrice!=null">
+            PRIME_PRICE = #{primePrice},
+        </if>
+        <if test="currentPrice!=0 and currentPrice!='' and currentPrice!=null">
+            CURRENT_PRICE = #{currentPrice},
+        </if>
+        <if test="des!='' and des!=null">
+            DES = #{des},
+        </if>
+        <if test="typesId!=0 and typesId!='' and typesId!=null">
+            TYPE_THIRD_ID= #{typesId},
+        </if>
+        <if test="inTime!=null">
+            IN_TIME = #{inTime},
+        </if>
+        <if test="count!=0 and count!='' and count!=null">
+            COUNT = #{count},
+        </if>
+        <if test="comImageMain!='' and comImageMain!=null">
+            COM_IMAGE_MAIN = #{comImageMain},
+        </if>
+        <if test="comImageOther!='' and comImageOther!=null">
+            COM_IMAGE_OTHER = #{comImageOther},
+        </if>
+    </sql>
+
+    <!--模糊查询-->
+    <select id="findComByKey" resultMap="commodityResultMap" parameterType="String">
+        <include refid="allColumns"></include> AND FLAG = 1 AND (COM_NAME LIKE '%${key}%' or DES LIKE '%${key}%' or THIRD_NAME LIKE '%${key}%')
+    </select>
+
+    <select id="adminFindCom" resultMap="commodityResultMap" parameterType="String">
+        <include refid="allColumns"></include> AND (COM_NAME LIKE '%${key}%' or DES LIKE '%${key}%' or THIRD_NAME LIKE '%${key}%')
+         <if test="start!='' and start!=null and end!='' and end!=null">
+             AND IN_TIME BETWEEN #{start} AND #{end}
+         </if>
+         <if test="flag != 0">
+             AND FLAG = 0
+         </if>
+    </select>
+
+    <update id="addHitsByComId" parameterType="Integer">
+        UPDATE commodity SET HITS = HITS+1 WHERE COM_ID = #{comId}
+    </update>
+
+    <select id="findHitsByComId" resultType="_int" parameterType="Integer">
+        SELECT HITs FROM commodity WHERE COM_ID = #{comId}
+    </select>
+
+    <update id="addCollectsByComId" parameterType="Integer">
+        UPDATE commodity SET COLLECTS = COLLECTS+1 WHERE COM_ID = #{comId}
+    </update>
+
+    <update id="reduceCollectsByComId" parameterType="Integer">
+        UPDATE commodity SET COLLECTS = COLLECTS-1 WHERE COM_ID = #{comId}
+    </update>
+
+    <select id="findComByThirdId" resultMap="commodityResultMap" parameterType="_int" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_BARGAIN,
+        c.IS_NEW,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+		u.REAL_NAME,
+		u.NICK_NAME,
+		u.SCHOOL,
+		u.SEX,
+		u.PROFILE_PHOTO,
+		u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID and c.TYPE_THIRD_ID=#{thirdId} and c.FLAG=1 ORDER BY c.COM_ID DESC
+    </select>
+
+    <select id="findMyCommodityBySellerId" resultMap="commodityResultMap" parameterType="Commodity" >
+        SELECT
+        c.COM_ID,
+        c.COM_NAME,
+        c.SELLER_ID,
+        c.PRIME_PRICE,
+        c.CURRENT_PRICE,
+        c.DES,
+        c.FLAG,
+        c.COUNT,
+        c.IS_BARGAIN,
+        c.IS_NEW,
+        c.IS_URGENT,
+        c.IS_RECOMMEND,
+        c.HITS,
+        c.IN_TIME,
+        c.ON_TIME,
+        c.REVIEWS,
+        c.COLLECTS,
+        c.COM_IMAGE_MAIN,
+        c.COM_IMAGE_OTHER,
+        c.UPDATE_TIME,
+        tt.THIRD_ID,
+        tt.THIRD_NAME,
+		u.REAL_NAME,
+		u.NICK_NAME,
+		u.SCHOOL,
+		u.SEX,
+		u.PROFILE_PHOTO,
+		u.USER_NAME
+        FROM commodity c,user u,typethird tt
+        WHERE c.TYPE_THIRD_ID = tt.THIRD_ID  and u.USER_ID=c.SELLER_ID and c.SELLER_ID=#{sellerId} ORDER BY c.COM_ID DESC
+    </select>
+
+    <update id="updateCommodityByComId" parameterType="Commodity">
+        UPDATE commodity
+        SET
+        COM_NAME = #{comName},
+        PRIME_PRICE = #{primePrice},
+        CURRENT_PRICE = #{currentPrice},
+        DES = #{des},
+        COUNT = #{count},
+        TYPE_THIRD_ID = #{typesId},
+        IS_BARGAIN = #{isBargain},
+        COM_IMAGE_MAIN = #{comImageMain},
+        COM_IMAGE_OTHER = #{comImageOther},
+        UPDATE_TIME = #{updateTime}
+        WHERE COM_ID = #{comId}
+    </update>
+
+    <update id="updateCommodityCountByComId" parameterType="Commodity">
+        UPDATE commodity SET COUNT = COUNT - #{count} WHERE COM_ID = #{comId}
+    </update>
+
+    <update id="updateCommodityFlagByComId" parameterType="Commodity">
+        UPDATE commodity SET FLAG = #{flag} WHERE COM_ID = #{comId}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.DisMessageMapper">
+
+    <select id="findDisMessageCounts" resultType="_int" parameterType="map">
+        SELECT COUNT(*) FROM dismessage;
+    </select>
+
+    <select id="findDisReplayCounts" resultType="_int" parameterType="map">
+        SELECT COUNT(*) FROM disreplay;
+    </select>
+
+    <resultMap id="baseDisMessageResultMap" type="DisMessage">
+        <id property="msgId" column="MESSAGE_ID"></id>
+        <result property="msgDes" column="MESSAGE_DES"></result>
+        <result property="discussId" column="DISCUSS_ID"></result>
+        <result property="userId" column="USER_ID"></result>
+        <result property="msgTime" column="MSG_TIME"></result>
+        <result property="msgUp" column="MSG_UP"></result>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="realName" column="REAL_NAME"></result>
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="school" column="SCHOOL"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="baseDisReplayResultMap" type="DisReplay">
+        <id property="replayId" column="REPLAY_ID"></id>
+        <result property="replayDes" column="REPLAY_DESC"></result>
+        <result property="replayerId" column="REPLAYER_ID"></result>
+        <result property="msgId" column="MSG_ID"></result>
+        <result property="msgerId" column="MSGER_ID"></result>
+        <result property="replayTime" column="REPLAY_TIME"></result>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+            <result property="msgerName" column="msgerName"></result>
+        </association>
+    </resultMap>
+
+    <select id="findDisMsgByDiscussId" resultMap="baseDisMessageResultMap" parameterType="map">
+        SELECT dm.MESSAGE_ID,dm.MESSAGE_DES,dm.DISCUSS_ID,dm.USER_ID,dm.MSG_TIME,dm.MSG_UP,u.PROFILE_PHOTO,u.NICK_NAME,u.SEX
+        FROM dismessage dm,discuss d,user u
+        WHERE dm.DISCUSS_ID = d.DISCUSS_ID AND dm.USER_ID = u.USER_ID AND dm.DISCUSS_ID = #{discussId}
+    </select>
+
+    <select id="findDisReplayByDiscussIdAndMsgId" resultMap="baseDisReplayResultMap" parameterType="_int">
+        SELECT
+        dr.REPLAY_ID,
+        dr.REPLAY_DESC,
+        dr.REPLAYER_ID,
+        dr.REPLAY_TIME,
+        dr.MSGER_ID,
+        u.PROFILE_PHOTO,
+        u.NICK_NAME,
+        u.SEX,
+        u2.NICK_NAME as msgerName
+         FROM disreplay dr,dismessage dm,user u,user u2
+         WHERE  dr.REPLAYER_ID=u.USER_ID
+         AND dm.DISCUSS_ID=#{discussId} AND dm.MESSAGE_ID=#{msgId} AND dm.MESSAGE_ID=dr.MSG_ID AND dr.MSGER_ID = u2.USER_ID
+    </select>
+    
+    <insert id="addDisMessage" parameterType="DisMessage">
+        INSERT INTO dismessage(MESSAGE_DES,DISCUSS_ID,USER_ID,MSG_TIME,MSG_UP)
+         VALUES (#{msgDes},#{discussId},#{userId},#{msgTime},0)
+    </insert>
+
+    <insert id="addDisReplay" parameterType="DisReplay">
+        INSERT INTO disreplay(REPLAY_DESC,REPLAYER_ID,MSG_ID,MSGER_ID,REPLAY_TIME)
+         VALUES (#{replayDes},#{replayerId},#{msgId},#{msgerId},#{replayTime})
+    </insert>
+
+
+
+
+
+
+
+</mapper>

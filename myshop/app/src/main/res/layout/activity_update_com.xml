@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_update_com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/white"
+    tools:context="com.njxzc.myshop.personal_activity.UpdateComActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_top">
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chevron_left"
+        android:id="@+id/back"
+        android:onClick="backHomepage"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_marginLeft="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@drawable/black"
+        android:text="修改二手"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_updateCom" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/ll_top"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divide">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
+
+            <EditText
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:background="@null"
+                android:id="@+id/et_comName"
+                android:hint="商品名 品类品牌型号都是买家喜欢搜索的"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                android:id="@id/divide" />
+
+            <EditText
+                android:gravity="top"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:textSize="14sp"
+                android:background="@null"
+                android:id="@+id/et_comDesc"
+                android:hint="描述宝贝的转手原因、入手渠道和使用感受等"/>
+
+
+            <RelativeLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/rl_publish"
+                >
+
+                <!--<ImageView
+                    android:layout_width="80sp"
+                    android:layout_height="80sp"
+                    android:id="@+id/iv_addbtn"
+                    android:src="@drawable/image_add"/>-->
+
+                <com.njxzc.myshop.customview.MyGridView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:verticalSpacing="5dp"
+                    android:id="@+id/gv_listPic"
+                    android:numColumns="4"
+                    android:scrollbars="none"
+                    android:listSelector="@drawable/transparent">
+                </com.njxzc.myshop.customview.MyGridView>
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:paddingLeft="8dp"
+                android:paddingTop="10dp"
+                android:layout_below="@id/iv_addbtn"
+                android:textColor="#D8D8D8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_hint"
+                android:text="至少添加2张图片，第1张为展示主图"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                android:id="@id/divide" />
+
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:textColor="@drawable/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="现价：￥"/>
+
+                <EditText
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_currentPrice"
+                    android:hint="0.00"
+                    android:layout_weight="0.49" />
+
+                <TextView
+
+                    android:textColor="@drawable/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="原价：￥"/>
+
+                <EditText
+                    android:background="@null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/et_primePrice"
+                    android:hint="0.00"
+                    android:layout_weight="0.47" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                android:id="@id/divide" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:padding="6dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:textColor="@drawable/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="支持讲价"
+                    android:layout_weight="0.98" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/eg_isBargain"
+                    >
+
+                    <RadioButton
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:text="否"
+                        android:id="@+id/eb_noBargain" />
+
+                    <RadioButton
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:text="是"
+                        android:id="@+id/eb_isBargain" />
+
+
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                android:id="@id/divide" />
+
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_chooseType"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@drawable/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="分类"
+                    android:layout_weight="1.00" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="必填，请选择"
+                    android:id="@+id/tv_type"/>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_chevron_right_black_24dp"
+                    />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                />
+
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_counts"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textColor="@drawable/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="数量"
+                    android:layout_weight="1.00" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_reduce"
+                    android:src="@drawable/ic_remove_24dp"/>
+
+                <TextView
+                    android:gravity="center"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:background="#EBECEC"
+                    android:id="@+id/tv_counts"
+                    android:text="1"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/iv_add"
+                    android:src="@drawable/ic_add_24dp"/>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/divide"
+                />
+
+
+            <Button
+                android:layout_marginTop="60dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_drawable"
+                android:textColor="@drawable/white"
+                android:textSize="20sp"
+                android:text="提交"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/btn_submit"
+                android:onClick="submit"/>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

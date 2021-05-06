@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_update_sex"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/white"
+    tools:context="com.njxzc.myshop.personal_activity.UpdateSexActivity">
+
+    <ImageView
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_width="45px"
+        android:layout_height="50px"
+        android:src="@drawable/back"
+        android:id="@+id/back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:onClick="backPersonalInfo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@drawable/black"
+        android:text="修改性别"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_updateSex" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/tv_updateSex"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:layout_below="@+id/divide"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="性别选择"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:layout_weight="1"/>
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/rg_sex">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:id="@+id/rb_sex_man"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:id="@+id/rb_sex_woman"/>
+
+        </RadioGroup>
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

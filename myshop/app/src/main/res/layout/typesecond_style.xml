@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_secondName"
+        android:text="手机"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@drawable/black"/>
+
+    <com.njxzc.myshop.customview.MyGridView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/gv_typeThird"
+            android:scrollbars="none"
+            android:numColumns="3"
+            android:listSelector="@drawable/transparent">
+        </com.njxzc.myshop.customview.MyGridView>
+
+</LinearLayout>

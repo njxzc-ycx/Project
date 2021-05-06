@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_agressment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.njxzc.myshop.personal_activity.UserAgressmentActivity">
+
+    <ImageView
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_width="45px"
+        android:layout_height="50px"
+        android:src="@drawable/back"
+        android:id="@+id/back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:onClick="backHelpCenter"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@drawable/black"
+        android:text="用户协议"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/tv_helpcenter" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_aboutus"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        >
+
+        <TextView
+            android:lineSpacingExtra="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_aggressment"
+            android:scrollbars="vertical"
+            android:layout_marginTop="22dp"
+            android:id="@+id/tv_useraggressment"
+            />
+
+        </RelativeLayout>
+</RelativeLayout>

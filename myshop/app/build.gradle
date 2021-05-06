@@ -1,0 +1,95 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "30.0.3"
+    defaultConfig {
+        applicationId "com.njxzc.myshop"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        repositories{
+            maven{
+                url "https://dl.google.com/dl/android/maven2/"
+            }
+        }
+    }
+    sourceSets{
+        main{
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
+
+}
+
+
+
+MobSDK {
+    appKey "3235b0b37cfbd"
+    appSecret "38a466b58df315d50f2e50313917680b"
+    SMSSDK {}
+}
+
+repositories{
+
+    flatDir{
+        dirs 'libs'
+    }}
+
+allprojects {
+    repositories {
+        //cookie持久化jar包 添加以下语句
+        maven { url "http://jitpack.io" }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:design:23.4.0'
+    /*compile 'com.github.bumptech.glide:glide:4.6.1'*/
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile('com.android.support:appcompat-v7:26.0.0-alpha1') {
+        exclude module: 'support-v4'
+    }
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.amap.api:location:latest.integration'
+    testCompile 'junit:junit:4.12'
+    compile(name: 'pullToRefreshlibrary-release', ext: 'aar')
+    compile(name: 'pullToRefreshListFragment-release', ext: 'aar')
+    compile(name: 'pullToRefreshViewPager-release', ext: 'aar')
+    compile(name: 'alipaysdk-15.8.01.210112203525', ext: 'aar')
+    compile 'com.makeramen:roundedimageview:2.3.0'
+    compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+    compile 'liji.library.dev:citypickerview:0.7.0'
+    /*图片多选框架*/
+    compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.github.chrisbanes:PhotoView:2.0.0'
+    compile project(':easeui')
+}
+
+
+
+
+

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_my"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white"
+    tools:context="com.njxzc.myshop.personal_activity.MyFollowsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:id="@+id/ll_top">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_left"
+            android:id="@+id/back"
+            android:onClick="backPersonalFragment"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:paddingLeft="75dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@drawable/black"
+            android:text="我的关注"
+            android:id="@+id/tv_myfollows"
+            android:layout_above="@+id/divide"
+            android:layout_centerHorizontal="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/divide"
+        android:src="@drawable/divide"
+        android:layout_below="@id/ll_top"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divide"
+        android:id="@+id/sr_myFollows">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lv_myFollows"
+            android:scrollbars="none"
+            android:listSelector="@drawable/transparent">
+        </ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

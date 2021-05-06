@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+</head>
+<body>
+<div id="showItem" class="table-responsive" style="width:100%" >
+    <ol class="breadcrumb">
+        <li class="active">商品信息</li>
+    </ol>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>图片</th>
+            <th>名称</th>
+            <th>描述</th>
+            <th>分类</th>
+            <th>卖家</th>
+            <th>价格</th>
+            <th>数量</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ac:${allCommodities}">
+            <td><span th:text="${ac.comId}"></span></td>
+            <td th:if="${null!=ac.comImageMain}">
+                <img  th:src="${ac.comImageMain}" width="150px"
+                      height="150px" >
+            </td>
+            <td th:if="${null==ac.comImageMain}">
+                <img  th:src="'http://localhost:8088/shopsystem/resources/image/default.jpg'" width="150px"
+                      height="150px" >
+            </td>
+            <td><span th:text="${ac.comName}"></span></td>
+            <td><span th:text="${ac.des}"></span></td>
+            <td><span th:text="${ac.typethird.thirdName}"></span></td>
+            <td><span th:text="${ac.user.realName}"></span></td>
+            <td><span th:text="${ac.currentPrice}"></span></td>
+            <td><span th:text="${ac.count}"></span></td>
+            <td><span th:text="${ac.flag==0?'待审核':ac.flag==1?'上架中':ac.flag==2?'已下架':'审核不通过'}"></span></td>
+            <td>
+                <a class="btn btn-info" th:id="${ac.comId}" th:href="'http://localhost:8088/shopsystem/commodity/toComDetail/'+${ac.comId}+'/'+${pageIndex}">商品详细</a>
+                <a class="btn btn-info" th:if="${ac.flag==0||ac.flag==2}" th:href="'http://localhost:8088/shopsystem/commodity/updateComFlag/'+${ac.comId}+'/'+${ac.flag}">上架</a>
+                <a class="btn btn-info" th:if="${ac.flag==1}" th:href="'http://localhost:8088/shopsystem/commodity/updateComFlag/'+${ac.comId}+'/'+${ac.flag}">下架</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div style="text-align: center;width:100%;position: fixed;bottom: 50px;">
+    <a class="btn btn-default" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex=1'"  >首页</a>
+    <a class="btn btn-default" th:if="${pageIndex!=1}" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex='+${pageIndex-1}" >上一页</a>
+    <a class="btn btn-default" th:if="${pageIndex==1}" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex=1'" >上一页</a>
+    <a class="btn btn-default" th:if="${pageIndex!=pageCount}" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex='+${pageIndex+1}" >下一页</a>
+    <a class="btn btn-default" th:if="${pageIndex==pageCount}" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex='+${pageCount}" >下一页</a>
+    <a class="btn btn-default" th:href="'http://localhost:8088/shopsystem/commodity/toAllComByPage?strPageIndex='+${pageCount}"  >尾页</a>
+    </br>
+    <span th:text="'当前在第'+${pageIndex}+'/'+${pageCount}+'页'"></span>
+</div>
+
+
+</body>
+</html>

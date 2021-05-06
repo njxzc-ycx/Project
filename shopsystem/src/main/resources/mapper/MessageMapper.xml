@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.MessageMapper">
+
+
+
+    <resultMap id="baseMessageResultMap" type="Message">
+        <id property="msgId" column="MESSAGE_ID"></id>
+        <result property="msgDes" column="MESSAGE_DES"></result>
+        <result property="comId" column="COM_ID"></result>
+        <result property="userId" column="USER_ID"></result>
+        <result property="msgTime" column="MSG_TIME"></result>
+        <result property="msgUp" column="MSG_UP"></result>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="realName" column="REAL_NAME"></result>
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="school" column="SCHOOL"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+        </association>
+    </resultMap>
+
+    <resultMap id="baseReplayResultMap" type="Replay">
+        <id property="replayId" column="REPLAY_ID"></id>
+        <result property="replayDes" column="REPLAY_DESC"></result>
+        <result property="replayerId" column="REPLAYER_ID"></result>
+        <result property="msgId" column="MSG_ID"></result>
+        <result property="msgerId" column="MSGER_ID"></result>
+        <result property="replayTime" column="REPLAY_TIME"></result>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+            <result property="msgerName" column="msgerName"></result>
+        </association>
+    </resultMap>
+
+    <select id="findMsgByComId" resultMap="baseMessageResultMap" parameterType="map">
+        SELECT m.MESSAGE_ID,m.MESSAGE_DES,m.COM_ID,m.USER_ID,m.MSG_TIME,m.MSG_UP,u.PROFILE_PHOTO,u.NICK_NAME,u.SEX
+        FROM message m,commodity c,user u
+        WHERE m.COM_ID = c.COM_ID AND m.USER_ID = u.USER_ID AND m.COM_ID = #{comId}
+    </select>
+
+    <select id="findReplayByComIdAndMsgId" resultMap="baseReplayResultMap" parameterType="_int">
+        SELECT
+        r.REPLAY_ID,
+        r.REPLAY_DESC,
+        r.REPLAYER_ID,
+        r.REPLAY_TIME,
+        u.PROFILE_PHOTO,
+        u.NICK_NAME,
+        u.SEX,
+        u2.NICK_NAME as msgerName
+         FROM replay r,message m,user u,user u2
+         WHERE  r.REPLAYER_ID=u.USER_ID
+         AND m.COM_ID=#{comId} AND m.MESSAGE_ID=#{msgId} AND m.MESSAGE_ID=r.MSG_ID AND r.MSGER_ID = u2.USER_ID
+    </select>
+    
+    <insert id="addMessage" parameterType="Message">
+        INSERT INTO message(MESSAGE_DES,COM_ID,USER_ID,MSG_TIME,MSG_UP)
+         VALUES (#{msgDes},#{comId},#{userId},#{msgTime},0)
+    </insert>
+
+    <insert id="addReplay" parameterType="Replay">
+        INSERT INTO replay(REPLAY_DESC,REPLAYER_ID,MSG_ID,MSGER_ID,REPLAY_TIME)
+         VALUES (#{replayDes},#{replayerId},#{msgId},#{msgerId},#{replayTime})
+    </insert>
+
+
+
+
+
+
+
+</mapper>

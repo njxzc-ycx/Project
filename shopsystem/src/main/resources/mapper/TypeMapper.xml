@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.TypeMapper">
+
+    <resultMap id="baseTypefirstResultMap" type="Typefirst">
+        <id property="firstId" column="FIRST_ID"></id>
+        <result property="firstName" column="FIRST_NAME"></result>
+    </resultMap>
+
+    <resultMap id="baseTypesecondResultMap" type="Typesecond">
+        <id property="secondId" column="SECOND_ID"></id>
+        <result property="secondName" column="SECOND_NAME"></result>
+    </resultMap>
+
+    <resultMap id="baseTypeThirdResultMap" type="Typethird">
+        <id property="thirdId" column="THIRD_ID"></id>
+        <result property="thirdName" column="THIRD_NAME"></result>
+        <result property="thirdPicture" column="THIRD_PICTURE"></result>
+    </resultMap>
+
+    <resultMap id="baseTypethirdResultMap" type="Typethird">
+        <id property="thirdId" column="THIRD_ID"></id>
+        <result property="thirdName" column="THIRD_NAME"></result>
+        <result property="thirdPicture" column="THIRD_PICTURE"></result>
+        <association property="typefirst" javaType="com.njxzc.shopsystem.pojo.Typefirst">
+            <id property="firstId" column="FIRST_ID"></id>
+            <result property="firstName" column="FIRST_NAME"></result>
+        </association>
+        <association property="typesecond" javaType="com.njxzc.shopsystem.pojo.Typesecond">
+            <id property="secondId" column="SECOND_ID"></id>
+            <result property="secondName" column="SECOND_NAME"></result>
+        </association>
+    </resultMap>
+
+    <select id="findAllTypefirst" resultMap="baseTypefirstResultMap" parameterType="map">
+        SELECT FIRST_ID,FIRST_NAME FROM typefirst
+    </select>
+
+    <select id="findAllTypesecondByFirstId" resultMap="baseTypesecondResultMap" parameterType="_int">
+        SELECT ts.SECOND_ID,ts.SECOND_NAME FROM typefirst tf,typesecond ts WHERE tf.FIRST_ID = ts.FIRST_ID AND tf.FIRST_ID=#{firstId}
+    </select>
+
+    <select id="findAllTypethirdBySecondId" resultMap="baseTypeThirdResultMap" parameterType="_int">
+        SELECT tt.THIRD_ID,tt.THIRD_NAME,tt.THIRD_PICTURE FROM typethird tt,typesecond ts WHERE tt.SECOND_ID = ts.SECOND_ID AND ts.SECOND_ID=#{secondId}
+    </select>
+
+    <select id="findAllTypethird" resultMap="baseTypethirdResultMap" parameterType="_int">
+        SELECT ts.SECOND_ID,ts.SECOND_NAME,tt.THIRD_ID,tt.THIRD_NAME,tt.THIRD_PICTURE
+        FROM typesecond ts,typethird tt,typefirst tf
+        WHERE ts.FIRST_ID = tf.FIRST_ID AND tt.SECOND_ID = ts.SECOND_ID AND tf.FIRST_ID=#{firstId}
+    </select>
+
+    <insert id="addTypefirst" parameterType="Typefirst">
+        INSERT INTO typefirst (FIRST_NAME) VALUES (#{firstName})
+    </insert>
+
+    <delete id="deleteTypefirst" parameterType="Typefirst">
+        DELETE FROM typefirst WHERE FIRST_ID = #{firstId}
+    </delete>
+
+    <update id="updateTypefirst" parameterType="Typefirst">
+        UPDATE typefirst SET FIRST_NAME = #{firstName} WHERE FIRST_ID = #{firstId}
+    </update>
+
+    <insert id="addTypesecond" parameterType="Typesecond">
+        INSERT INTO typesecond (SECOND_NAME,FIRST_ID) VALUES (#{secondName},#{firstId})
+    </insert>
+
+    <delete id="deleteTypesecond" parameterType="Typesecond">
+        DELETE FROM typesecond WHERE SECOND_ID = #{secondId}
+    </delete>
+
+    <update id="updateTypesecond" parameterType="Typesecond">
+        UPDATE typesecond SET SECOND_NAME = #{secondName} WHERE SECOND_ID = #{secondId}
+    </update>
+
+    <insert id="addTypethird" parameterType="Typethird">
+        INSERT INTO typethird (THIRD_NAME,THIRD_PICTURE,SECOND_ID) VALUES (#{thirdName},#{thirdPicture},#{secondId})
+    </insert>
+
+    <delete id="deleteTypethird" parameterType="Typethird">
+        DELETE FROM typethird WHERE THIRD_ID = #{thirdId}
+    </delete>
+
+    <update id="updateTypethird" parameterType="Typethird">
+        UPDATE typethird SET THIRD_NAME = #{thirdName},THIRD_PICTURE = #{thirdPicture} WHERE THIRD_ID = #{thirdId}
+    </update>
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.OrderDetailMapper">
+
+    <resultMap id="baseOrderDetailResultMap" type="OrderDetail">
+        <id property="orderDetailId" column="ORDER_DETAIL_ID"></id>
+        <result property="orderId" column="ORDER_ID"></result>
+        <result property="comId" column="COM_ID"></result>
+        <result property="buyCount" column="BUY_COUNT"></result>
+    </resultMap>
+
+    <resultMap id="OrderDetailResultMap" type="OrderDetail">
+            <id property="orderDetailId" column="ORDER_DETAIL_ID"></id>
+            <result property="orderId" column="ORDER_ID"></result>
+            <result property="comId" column="COM_ID"></result>
+            <result property="buyCount" column="BUY_COUNT"></result>
+            <!--详情对应商品 一对一-->
+            <association property="commodity" javaType="Commodity">
+                <id property="comId" column="COM_ID"/>
+                <result property="comName" column="COM_NAME"/>
+                <result property="sellerId" column="SELLER_ID"/>
+                <result property="primePrice" column="PRIME_PRICE"/>
+                <result property="currentPrice" column="CURRENT_PRICE"/>
+                <result property="des" column="DES"/>
+                <result property="flag" column="FLAG"/>
+                <result property="count" column="COUNT"/>
+                <result property="isNew" column="IS_NEW"/>
+                <result property="isBargain" column="IS_BARGAIN"/>
+                <result property="isUrgent" column="IS_URGENT"/>
+                <result property="isRecommend" column="IS_RECOMMEND"/>
+                <result property="hits" column="hits"/>
+                <result property="inTime" column="IN_TIME"/>
+                <result property="onTime" column="ON_TIME"/>
+                <result property="reviews" column="reviews"/>
+                <result property="collects" column="collects"/>
+                <result property="comImageMain" column="COM_IMAGE_MAIN"/>
+                <result property="comImageOther" column="COM_IMAGE_OTHER"/>
+                <result property="updateTime" column="UPDATE_TIME"/>
+                <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+                    <result property="realName" column="REAL_NAME"></result>
+                    <result property="nickName" column="NICK_NAME"></result>
+                    <result property="school" column="SCHOOL"></result>
+                    <result property="sex" column="SEX"></result>
+                    <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+                    <result property="userName" column="USER_NAME"></result>
+                    <result property="sellerName" column="sellerName"></result>
+                    <result property="buyerName" column="buyerName"></result>
+                </association>
+            </association>
+    </resultMap>
+
+    <insert id="insertOrderDetail" parameterType="OrderDetail">
+        INSERT INTO orderdetail (ORDER_ID,COM_ID,BUY_COUNT)
+        VALUES (#{orderId},#{comId},#{buyCount})
+    </insert>
+
+
+
+</mapper>

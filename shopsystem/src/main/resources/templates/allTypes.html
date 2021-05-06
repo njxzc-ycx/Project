@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+    <script type="text/javascript" th:inline="none" >
+
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#datas'
+                ,url:'http://localhost:8088/shopsystem/type/findAllTypefirst'
+                ,limit:10
+                ,cols: [[
+                    {field:'firstId', title: '编号', sort: true}, //sort：true页面可进行排序操作
+                    {field:'firstName', title: '名称'},
+                    {field:'son', title: '子分类',templet:function (d) {
+                        return '<div><button class="layui-btn layui-btn-radius layui-btn-normal" onclick="xadmin.open(\''+d.firstName+'的二级分类\',\'http://localhost:8088/shopsystem/type/toTypesecond?firstId='+d.firstId+'\',\'\',\'\',true)">查看子分类</button></div>'
+                        }},
+                    {field:'manage', title: '操作',templet:function (d) {
+                            return '<div><button class="layui-btn layui-btn-radius layui-btn-warm" onclick="updateModel('+d.firstId+',\''+d.firstName+'\')" >修改</button>' +
+                                '<button  class="layui-btn layui-btn-radius layui-btn-danger" onclick="del_typefirst(this,'+d.firstId+')">删除</button></div>'
+                        }},
+
+
+                ]]
+                ,page: true
+                ,done:function(res, curr, count){
+                    //数据的回调用，可不写
+                }
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+<div class="layui-card-body " style="background: #FFFFFF">
+    <div class="layui-inline layui-show-xs-block">
+    <input class="layui-input"  autocomplete="off" placeholder="请输入一级分类名称"  id="firstName">
+    </div>
+    <div class="layui-inline layui-show-xs-block">
+    <button class="layui-btn"  lay-submit lay-filter="search_btn" onclick="add_typefirst()">添加</button>
+    </div>
+</div>
+<div id="showItem" class="table-responsive" style="width:100%"  >
+    <table class="table table-hover" id="datas" lay-filter="test"></table>
+</div>
+
+
+</body>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+        min-width: 200px;
+        max-width: 350px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .layui-table img{
+        max-width:300px
+    }
+</style>
+
+<script>
+
+    function del_typefirst(obj,id){
+        layer.confirm('确认要删除编号：'+id+'的一级分类吗？',function(index){
+            //发异步下架数据
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8088/shopsystem/type/deleteTypefirst",
+                data:{'firstId':id},
+                success:function () {
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        table.reload('datas', {
+                            page: {
+                                curr: 1
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('删除失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    function add_typefirst(){
+        var firstName = $("#firstName").val();
+        if (firstName==null||firstName==''){
+            layer.alert("内容不得为空！",{icon:1,time:1000})
+        }else {
+            $.ajax({
+                type: "post",
+                url: "http://localhost:8088/shopsystem/type/addTypefirst",
+                data: {'firstName': firstName},
+                success: function () {
+                    layer.msg('已添加!', {icon: 1, time: 1000});
+                    layui.use('table', function () {
+                        var table = layui.table;
+                        $("#firstName").val(null);
+                        var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                        table.reload('datas', {
+                            page: {
+                                curr: currpage
+                            }
+                        });
+                    });
+                },
+                error: function () {
+                    layer.msg('添加失败!', {icon: 1, time: 1000});
+                }
+
+
+            });
+        }
+
+    }
+
+
+
+    function updateModel(firstId,firstName){
+        $("#firstId").val(firstId);
+        $("#firstName2").val(firstName);
+        layui.use(['layer'],function () {
+            var layer = layui.layer,$=layui.$;
+            layer.open({
+                type:1,//类型
+                area:['400px','300px'],//定义宽和高
+                title:'修改',//题目
+                shadeClose:false,//点击遮罩层关闭
+                content: $('#updateContent')//打开的内容
+            });
+        })
+    }
+    
+    function updateTypeFirst() {
+        var firstId = $("#firstId").val();
+        var firstName = $("#firstName2").val();
+        $.ajax({
+            type: "post",
+            url: "http://localhost:8088/shopsystem/type/updateTypefirst",
+            data: {'firstId': firstId, 'firstName': firstName},
+            success: function () {
+                layer.msg("修改成功！", {icon: 1, time: 1000});
+                layui.use('table', function () {
+                    var table = layui.table;
+                    var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                    table.reload('datas', {
+                        page: {
+                            curr: currpage
+                        }
+                    });
+                });
+                layer.closeAll('page');
+
+
+            },
+            error: function () {
+                layer.msg('操作失败!', {icon: 1, time: 1000});
+            }
+        });
+
+        
+    }
+
+
+
+
+</script>
+
+
+<div id="updateContent" style="display: none;text-align: center">
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <div style="float: left"><span>编号：</span></div>
+        <div style="float: left"><input class="layui-input"  autocomplete="off" readonly name="firstId" id="firstId"></div>
+    </div></br>
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <div style="float: left;"><span>名称：</span></div>
+        <div style="float: left"><input class="layui-input"  autocomplete="off" placeholder="请输入名称" name="firstName2" id="firstName2"></div>
+    </div></br>
+    <div class="layui-inline layui-show-xs-block" style="margin-top: 10px;text-align: center">
+        <button class="layui-btn"  onclick="updateTypeFirst()">提交</button>
+    </div></br>
+</div>
+
+
+</html>

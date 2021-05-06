@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+    <script type="text/javascript" th:inline="none" >
+
+    layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#datas'
+                ,url:'http://localhost:8088/shopsystem/slideshow/findAllSlideshows'
+                ,limit:5
+                ,cols: [[
+                    {field:'slideshowId', title: '编号', sort: true}, //sort：true页面可进行排序操作
+                    {field:'slideshowUrl', title: '图片',templet:function (d) {
+                            return '<div ><img src='+d.slideshowUrl+' width="180px" height="100px"  onclick="showBigImage(this)"></div>'
+                        }},
+                    {field:'show', title: '显示',templet:function (d) {
+                            if (d.slideshowStatus==1){
+                                return '<input type="checkbox" name="slideshowed" checked="" id="'+d.slideshowId+'"  lay-skin="switch" lay-filter="show" value="'+d.slideshowStatus+'"/>'
+                            }else {
+                                return '<input type="checkbox" id="'+d.slideshowId+'" lay-skin="switch" lay-filter="show" value="'+d.slideshowStatus+'"/> '
+                            }
+                        }},
+                    {field:'manage', title: '显示',templet:function (d) {
+                            return '<div><button class="layui-btn layui-btn-radius layui-btn-normal" onclick="updateModel('+d.slideshowId+',\''+d.slideshowUrl+'\')">修改</button>' +
+                                '<button  class="layui-btn layui-btn-radius layui-btn-danger" onclick=del_slideshow(this,'+d.slideshowId+')>删除</button></div>'
+                        }}
+
+
+
+                ]]
+                ,page: true
+                ,done:function(res, curr, count){
+                    //数据的回调用，可不写
+                }
+            });
+        });
+
+    //显示大图片
+    function showBigImage(e) {
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true, //点击阴影关闭
+            area: [$(e).width + 'px', $(e).height + 'px'], //宽高
+            content: "<img width='600px' height='400px' src=" + $(e).attr('src') + "/>"
+        });
+    }
+
+
+    </script>
+
+</head>
+<body>
+<div class="layui-card-body " style="background: #FFFFFF">
+     <button class="layui-btn"  lay-submit lay-filter="search_btn" onclick="addModel()" >添加轮播图</button>
+</div>
+<div id="showItem" class="table-responsive" style="width:100%"  >
+    <table class="table table-hover" id="datas" lay-filter="test"></table>
+</div>
+
+
+</body>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+        min-width: 200px;
+        max-width: 350px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .layui-table img{
+        max-width:300px
+    }
+</style>
+
+<script>
+
+    function del_slideshow(obj,id){
+        layer.confirm('确认要删除编号：'+id+'的轮播图吗？',function(index){
+            //发异步下架数据
+            $.ajax({
+                type:"post",
+                url:"http://localhost:8088/shopsystem/slideshow/deleteSlideshow/",
+                data:{'slideshowId':id},
+                success:function () {
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        table.reload('datas', {
+                            page: {
+                                curr: 1
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('删除失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    layui.use(['laydate','form','table'], function(){
+        var form = layui.form;//表单
+        form.on('switch(show)', function(data){
+            var id = $(this).attr("id");
+            var status = $(this).val();
+
+                $.ajax({
+                    type: "post",
+                    url: "http://localhost:8088/shopsystem/slideshow/updateSlideshowStatus/",
+                    data: {'slideshowId': id, 'slideshowStatus': status},
+                    success: function (data) {
+                        layer.msg(data.result, {icon: 1, time: 1000});
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                            table.reload('datas', {
+                                page: {
+                                    curr: currpage
+                                }
+                            });
+                        });
+                    },
+                    error: function () {
+                        layer.msg('操作失败!', {icon: 1, time: 1000});
+                    }
+                });
+
+
+        });
+
+
+    });
+
+    function updateModel(slideshowId,slideshowUrl) {
+        $("#img").attr("src", slideshowUrl);
+        $("#slideshowId").val(slideshowId);
+        layui.use(['layer', 'upload'], function () {
+            var layer = layui.layer, $ = layui.$;
+            layer.open({
+                type: 1,//类型
+                area: ['500px', '500px'],//定义宽和高
+                title: '修改编号：' + slideshowId + '轮播图',//题目
+                shadeClose: false,//点击遮罩层关闭
+                content: $('#updateContent')//打开的内容
+            });
+            var ls = layui.jquery
+                ,upload = layui.upload;
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#choose'
+                ,url: 'http://localhost:8088/shopsystem/slideshow/updateSlideshowUrl?slideshowId='+slideshowId
+                ,auto:false
+                ,exts: 'jpg|gif|png|jpeg'
+                ,bindAction: '#upload'
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#img').attr('src', result); //图片链接（base64）
+                    });
+                }
+                ,done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    else{
+                        layer.msg("修改成功！", {icon: 1, time: 1000});
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                            table.reload('datas', {
+                                page: {
+                                    curr: currpage
+                                }
+                            });
+                        });
+                        /*layer.closeAll('page');*/
+                    }
+                }
+                ,error: function(){
+                    //演示失败状态，并实现重传
+                    var demoText = $('#demoText');
+                    demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                    demoText.find('.demo-reload').on('click', function(){
+                        uploadInst.upload();
+                    });
+                }
+            });
+
+
+        });
+
+    }
+
+    function addModel() {
+        layui.use(['layer', 'upload'], function () {
+            var layer = layui.layer, $ = layui.$;
+            layer.open({
+                type: 1,//类型
+                area: ['500px', '500px'],//定义宽和高
+                title: '添加轮播图',//题目
+                shadeClose: false,//点击遮罩层关闭
+                content: $('#addContent')//打开的内容
+            });
+            var $ = layui.jquery
+                ,upload = layui.upload;
+            upload.render({
+                elem: '#test10'
+                ,url: 'http://localhost:8088/shopsystem/slideshow/addSlideshow' //改成您自己的上传接口
+                ,auto:false
+                ,exts: 'jpg|gif|png|jpeg'
+                ,bindAction: '#test2'
+                ,done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }
+                    //上传成功
+                    else{
+                        layer.msg('上传成功');
+                        layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.file);
+                        layui.use('table', function () {
+                            var table = layui.table;
+                            var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                            table.reload('datas', {
+                                page: {
+                                    curr: currpage
+                                }
+                            });
+                        });
+
+                    }
+
+
+                }
+            });
+        });
+    }
+
+
+
+
+
+
+</script>
+
+<div id="updateContent" style="display: none;text-align: center">
+    <input id="slideshowId" hidden="hidden">
+    <div class="layui-upload" style="text-align: center;" >
+        <div class="layui-upload-list">
+            <img class="layui-upload-img" id="img" src="" width="300px" height="200px">
+            <p id="demoText"></p>
+        </div>
+        <button type="button" class="layui-btn" id="choose">选择图片</button>
+        <button type="button" class="layui-btn" id="upload">开始上传</button>
+    </div>
+</div>
+
+<div id="addContent" style="display: none;text-align: center">
+    <div class="layui-upload-drag" id="test10">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+        <div class="layui-hide" id="uploadDemoView">
+            <hr>
+            <img src="" alt="上传成功后渲染" style="max-width: 196px">
+        </div>
+    </div>
+    <div style="margin-top: 10px">
+        <button type="button" class="layui-btn" id="test2">开始上传</button>
+    </div>
+</div>
+
+
+
+</html>

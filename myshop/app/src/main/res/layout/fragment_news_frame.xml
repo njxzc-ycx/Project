@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/white">
+
+
+    <TextView
+        android:text="消息"
+        android:textSize="60px"
+        android:textStyle="bold"
+        android:textColor="@drawable/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <!--<LinearLayout
+        android:paddingTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_news"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:paddingLeft="8dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/news"/>
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="消息通知"
+            android:textSize="18sp"
+            android:textColor="@drawable/black"
+            />
+
+    </LinearLayout>-->
+
+    <!--<ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/ll_news"/>-->
+
+    <LinearLayout
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ll_chats"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:paddingLeft="8dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/chat"
+            android:id="@+id/imageView2" />
+
+        <TextView
+            android:paddingLeft="10dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会话"
+            android:textSize="18sp"
+            android:textColor="@drawable/black"
+            />
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/ll_news"/>
+
+
+
+
+</LinearLayout>

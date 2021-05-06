@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.njxzc.myshop.MainActivity"
+    android:orientation="vertical">
+
+
+    <!--FrameLayout-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/fl_content">
+
+
+    </FrameLayout>
+
+    <!--底部的RadioGroup-->
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="1dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/white"
+        android:orientation="horizontal"
+        android:id="@+id/rg_main"
+        >
+
+        <RadioButton
+            android:background="@null"
+            android:button="@null"
+            android:id="@+id/rb_homepage"
+            android:drawableTop="@drawable/rb_homepage_drawable_selector"
+            android:text="首页"
+            style="@style/bottom_tag_style"
+            />
+
+        <RadioButton
+            android:background="@null"
+            android:button="@null"
+            android:id="@+id/rb_collect"
+            android:text="发现"
+            android:drawableTop="@drawable/rb_discuss_drawable_selector"
+            style="@style/bottom_tag_style"/>
+
+        <ImageView
+            android:id="@+id/iv_publish"
+            android:src="@drawable/ic_tab_publish"
+            android:layout_weight="1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:paddingBottom="6dp"/>
+
+
+        <RadioButton
+            android:background="@null"
+            android:button="@null"
+            android:id="@+id/rb_newmsg"
+            android:text="消息"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/rb_newmsg_drawable_selector"
+            style="@style/bottom_tag_style"/>
+
+        <RadioButton
+            android:background="@null"
+            android:button="@null"
+            android:id="@+id/rb_personal"
+            android:text="我的"
+            android:drawableTop="@drawable/rb_personal_drawable_selector"
+            style="@style/bottom_tag_style"/>
+
+
+
+
+
+    </RadioGroup>
+
+
+</LinearLayout>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <STYLE>
+        #father{
+            width:800px;
+            height: 800px;
+            border: 1px blue solid;
+            float: left;
+            position: relative;
+        }
+        #div1{
+            width: 600px;
+            height: 300px;
+            border: 1px red solid;
+            float: left;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #div2{
+            width: 600px;
+            height: 300px;
+            border: 1px green solid;
+            float: left;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #ebccd1;
+        }
+        #div3{
+            width: 600px;
+            height: 300px;
+            border: 1px orange solid;
+            float: left;
+            display: block;
+            margin-top: 300px;
+        }
+        #div4{
+             width: 600px;
+             height: 300px;
+             border: 1px deeppink solid;
+             float: left;
+            display: none;
+         }
+    </STYLE>
+    <script src="http://localhost:8088/shopsystem/js/jquery-1.8.3.js"></script>
+    <script>
+        var name = "刘";
+        $(function(){
+           //这层代码中编写JQuery方法
+            //1.给所有class="btn1" 的元素绑定 点击事件
+            $(".btn1").bind("click", function(){
+               //alert(name);//将 name="刘" 对应的信息 在页面弹框显示
+               //点击该内容 实现将div3隐藏
+                $("#div3").css("display","none");
+            });
+            //2.给id="btn3" 的元素绑定 点击事件
+            $("#btn3").bind("click", function(){
+                //alert(name);//将 name="刘" 对应的信息 在页面弹框显示
+                //点击该内容实现将div3显示
+                $("#div3").css("display","block");
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="father">
+     <div id="div1">
+
+     </div>
+     <div id="div2">
+
+     </div>
+    <div id="div3">
+
+    </div>
+    <div id="div4">
+
+    </div>
+
+</div>
+<div style="position: fixed;right: 200px;">
+    <img class="img1" src="http://localhost:8088/shopsystem/image/p1.jpg" width="200px" height="200px"><br/>
+    <input type="button" class="btn1" value="按钮1"><br/>
+    <input type="button" class="btn2" value="按钮2"><br/>
+    <input type="button" id="btn3" value="按钮3"><br/>
+</div>
+</body>
+</html>

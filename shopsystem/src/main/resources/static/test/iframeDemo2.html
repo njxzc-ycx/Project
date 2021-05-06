@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/hospital/css/iframeDemo2.css" />
+    <script src="http://localhost:8088/shopsystem/js/jquery-1.8.3.js"></script>
+    <script src="http://localhost:8088/shopsystem/js/iframeDemo2.js"></script>
+    <script>
+        var newImg;
+        var clientH=$(window).height();//获取窗口的高度
+        var clientW=$(window).width();//获取窗口的宽度
+        $(document).ready(function(){
+            console.log("窗口高度",clientH);
+            console.log("窗口宽度",clientW);
+            $("body").css("height",clientH+"px");
+        });
+    </script>
+</head>
+<body>
+    <div id="main-top">
+
+    </div>
+    <div id="main-show">
+        <div id="main-left">
+        <div id="myMenu">
+            <dl>
+                <dt>
+                    用户管理
+                </dt>
+                <div style="display: none">
+                    <ul class="userMenu">
+                        <li><a href="http://www.baidu.com" target="myframe">新增用户</a></li>
+                        <li><a href="http://www.baidu.com" target="myframe">用户查询</a></li>
+                    </ul>
+                </div>
+                <dt>
+                    商品管理
+                </dt>
+                    <div style="display: none">
+                        <ul class="comsMenu">
+                            <li><a href="http://localhost:8088/shopsystem/commodity/toAllComByPage" target="myframe">商品信息</a></li>
+                            <li><a href="http://www.baidu.com" target="myframe">商品审核</a></li>
+                        </ul>
+                    </div>
+
+            </dl>
+            <!--<ul style="list-style: none">
+                <li><a href="http://localhost:8088/shopsystem/commodity/toAllComByPage" target="myframe">商品管理</a></li>
+                <li><a href="http://localhost:8088/shopsystem/admin/toSign" target="myframe">用户管理</a></li>
+                <li><a href="http://www.baidu.com" target="myframe">商家管理</a></li>
+            </ul>-->
+         </div>
+        </div>
+        <div id="main-right">
+            <iframe src="http://www.baidu.com" name="myframe" id="myframe">
+
+            </iframe>
+
+        </div>
+    </div>
+
+    <div id="main-bottom">
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.FollowMapper">
+
+    <resultMap id="followsResultMap" type="com.njxzc.shopsystem.pojo.Follow">
+        <id property="followId" column="FOLLOW_ID"/>
+        <result property="followerId" column="FOLLOWER_ID"/>
+        <result property="userId" column="USER_ID"/>
+        <association property="user" javaType="com.njxzc.shopsystem.pojo.User">
+            <result property="nickName" column="NICK_NAME"></result>
+            <result property="userName" column="USER_NAME"></result>
+            <result property="school" column="SCHOOL"></result>
+            <result property="sex" column="SEX"></result>
+            <result property="profilePhoto" column="PROFILE_PHOTO"></result>
+        </association>
+    </resultMap>
+
+    <select id="findFollowByUserId" resultMap="followsResultMap" parameterType="map">
+        SELECT
+        f.FOLLOW_ID,
+        f.FOLLOWER_ID,
+        f.USER_ID,
+        u.NICK_NAME,
+        u.USER_NAME,
+        u.SCHOOL,
+        u.SEX,
+        u.PROFILE_PHOTO
+        FROM follows f,user u
+        WHERE u.USER_ID=f.FOLLOWER_ID and f.USER_ID = #{userId}
+    </select>
+
+
+
+    <select id="findFollowByFollowerIdAndUserId" resultType="_int" parameterType="map" >
+        SELECT COUNT(*) FROM follows WHERE FOLLOWER_ID = #{followerId} AND USER_ID = #{userId}
+    </select>
+
+    <insert id="joinFollowed" parameterType="Follow">
+        INSERT INTO follows(FOLLOWER_ID,USER_ID) VALUES (#{followerId},#{userId});
+    </insert>
+
+    <delete id="cancelFollowed" parameterType="Follow">
+        DELETE FROM follows WHERE FOLLOWER_ID = #{followerId} AND USER_ID = #{userId}
+    </delete>
+</mapper>

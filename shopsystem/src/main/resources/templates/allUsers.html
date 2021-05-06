@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+    <script type="text/javascript" th:inline="none" >
+
+    layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#datas'
+                ,url:'http://localhost:8088/shopsystem/user/findAllUser'
+                ,limit:5 //默认为10
+                ,cols: [[
+                    {field:'userId', title: '编号', sort: true} //sort：true页面可进行排序操作
+                    ,{field:'profilePhoto',  title: '头像',templet:function (d) {
+                            return '<div><img src='+d.profilePhoto+' width="100px" height="100px" onclick="showBigImage(this)"></div>'
+                        }}
+                    ,{field:'nickName', title: '昵称'}
+                    ,{field:'sex', title: '性别',templet:function (d) {
+                            if (d.sex==1){
+                                return '男'
+                            }else if(d.sex==0){
+                                return '女'
+                            }else {
+                                return '未知'
+                            }
+
+                        }}
+                    ,{field:'school', title: '学校',templet:function (d) {
+                            if (d.school==null){
+                                return '未设置'
+                            }else {
+                                return d.school
+                            }
+                        }}
+                    ,{field:'state', title: '状态',templet:function (d) {
+                            if (d.state==2){
+                                return '<span class="layui-btn layui-btn-danger layui-btn-mini">封禁</span>'
+                            }else if(d.state==1){
+                                return '<span class="layui-btn layui-btn-normal layui-btn-mini">正常</span>'
+                            }
+                        }}
+                    ,{field:'manage', title: '操作',templet:function (d) {
+                            if (d.state==2){
+                                return '<a title="解封" style="text-decoration:none" onclick=user_release(this,' + d.userId +','+d.state+ ') href="javascript:;"> <i class="layui-icon">&#xe669;</i></a>';
+                            }else if(d.state==1) {
+                                return '<a title="封禁" style="text-decoration:none" onclick=user_ban(this,' + d.userId+','+d.state + ') href="javascript:;"> <i class="layui-icon">&#x1006;</i></a>';
+                            }
+                        }}
+                ]]
+                ,page: true
+                ,done:function(res, curr, count){
+                    //数据的回调用，可不写
+                }
+            });
+        });
+
+
+
+    //显示大图片
+    function showBigImage(e) {
+        layer.open({
+            type: 1,
+            title: false,
+            closeBtn: 0,
+            shadeClose: true, //点击阴影关闭
+            area: [$(e).width + 'px', $(e).height + 'px'], //宽高
+            content: "<img width='600px' height='600px' src=" + $(e).attr('src') + " />"
+        });
+    }
+
+
+    </script>
+
+</head>
+<body>
+<div class="layui-card-body " style="background: #FFFFFF">
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <select lay-filter="state" name="state" id="state">
+                  <option value="0">选择用户状态</option>
+                  <option value="1">正常</option>
+                  <option value="2">封禁</option>
+            </select>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="userId" id="userId" placeholder="请输入用户编号" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="school" id="school" placeholder="请输入用户学校" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="key" id="key" placeholder="请输入用户昵称" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit lay-filter="search_btn" id="search"><i class="layui-icon">&#xe615;</i></button>
+        </div>
+    </form>
+</div>
+<div id="showItem" class="table-responsive" style="width:100%"  >
+    <table class="table table-hover" id="datas" lay-filter="test"></table>
+</div>
+
+
+</body>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+        min-width: 180px;
+        max-width: 250px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .layui-table img{
+        max-width:300px
+    }
+</style>
+
+<script>
+    function user_ban(obj,id,state){
+        layer.confirm('确认要封禁编号：'+id+'的用户吗？',function(index){
+            $.ajax({
+                type:"get",
+                url:"http://localhost:8088/shopsystem/user/updateUserState/",
+                data:{'userId':id,'state':state},
+                success:function () {
+                    layer.msg('已封禁!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                        table.reload('datas', {
+                            page: {
+                                curr: currpage
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('封禁失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    function user_release(obj,id,state){
+        layer.confirm('确认要解封编号：'+id+'的用户吗？',function(index){
+            $.ajax({
+                type:"get",
+                url:"http://localhost:8088/shopsystem/user/updateUserState/",
+                data:{'userId':id,'state':state},
+                success:function () {
+                    layer.msg('已解封!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                        table.reload('datas', {
+                            page: {
+                                curr: currpage
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('解封失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    layui.use(['laydate','form'], function(){
+        var laydate = layui.laydate;
+        var form = layui.form;
+
+        //执行一个laydate实例
+        laydate.render({
+            type:'datetime',
+            elem: '#start' //指定元素
+        });
+
+        //执行一个laydate实例
+        laydate.render({
+            type:'datetime',
+            elem: '#end' //指定元素
+        });
+    });
+
+    layui.use(['laydate','form','table'], function(){
+        var form = layui.form;//表单
+        var table = layui.table;//表格
+        form.on('submit(search_btn)', function (data) {
+            var state = $("#state").val();
+            var key = $("#key").val();
+            var userId = $("#userId").val();
+            var school = $("#school").val();
+            console.log("state:"+ state);
+            console.log("school:"+ school);
+            if (userId==''){
+                userId=0;
+            }
+            /**
+             * 数据表格的重载功能
+             */
+            table.reload('datas', {
+                method: 'post',
+                url:"http://localhost:8088/shopsystem/user/findUsersByKey?key="+key+'&userId='+userId+'&school='+school+'&state='+state,
+                data :{
+                    key : key,
+                    userId : userId
+                },
+                page: {
+                    curr: 1 // 重载后从第一页开始
+                }
+            });
+            return false;
+        });
+    });
+
+
+</script>
+
+
+
+</html>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:paddingTop="15dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:id="@+id/rl_address">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.95">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_linkman"
+                android:text="殷晨旭"
+                android:textColor="@drawable/black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_linkphone"
+                android:text="15195871880"
+                android:textColor="@drawable/black"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/tv_linkman"
+                android:layout_marginStart="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:text="中国,江苏省,南京市,江宁区,南京晓庄学院方山校区"
+                android:id="@+id/tv_addressDetail"
+                android:layout_below="@+id/tv_linkman"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_ifdefault"
+            android:drawableLeft="@drawable/defaultaddress"
+            android:textStyle="bold"
+            android:textColor="#64B5F6"
+            android:text="默认"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

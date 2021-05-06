@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp"
+    android:background="@drawable/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_top"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingLeft="150dp"
+            android:layout_height="wrap_content"
+            android:text="发现"
+            android:textColor="@drawable/black"
+            android:textSize="60px"
+            android:textStyle="bold"
+            android:layout_weight="1"/>
+        
+        <ImageView
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:id="@+id/iv_publishDis"
+            android:src="@drawable/publishdiscuss"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"/>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="#ad2d2fda"
+        app:tabSelectedTextColor="#FF000000"
+        android:background="#ffffff"
+        >
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpaper" />
+
+
+
+</LinearLayout>

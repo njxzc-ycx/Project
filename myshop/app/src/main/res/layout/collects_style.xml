@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        app:riv_corner_radius="5dip"
+        android:layout_width="130dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/defaultpic"
+        android:id="@+id/iv_comImageMain" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:textSize="16sp"
+            android:textColor="@drawable/black"
+            android:text="xxxxxxxxxxxxxxxxxxxxxxxxxx华为手机"
+            android:id="@+id/tv_comName"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="8dp">
+
+
+            <TextView
+                android:textSize="12sp"
+                android:textColor="@drawable/red"
+                android:text="xxx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_currentPrice"
+                 />
+
+            <TextView
+                android:layout_marginLeft="70dp"
+                android:textSize="12sp"
+                android:text="xxx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:id="@+id/tv_collects"
+                />
+
+
+            <TextView
+                android:textSize="12sp"
+                android:text="人收藏"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/collectsText" />
+
+            <ImageView
+                android:layout_width="12sp"
+                android:layout_height="12sp"
+                android:layout_gravity="center"
+                android:src="@drawable/collectlogo"/>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

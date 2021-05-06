@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+    <script type="text/javascript" th:inline="none" >
+
+    layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#datas'
+                ,url:'http://localhost:8088/shopsystem/discuss/findAllDiscusses'
+                ,limit:10 //默认为10
+                ,cols: [[
+                    {field:'discussId', title: '编号', sort: true}, //sort：true页面可进行排序操作
+                    {field:'discussDes', title: '内容'},
+                    {field:'discussTypeName',title:'板块',templet:function (d) {
+                            return d.discussType.discussTypeName;
+                        }},
+                    {field:'nickName', title: '作者',templet:function (d) {
+                            return d.user.nickName;
+                        }},
+                    {field:'discussTime', title: '发布时间'},
+                    {field:'flag', title: '状态',templet:function (d) {
+                            if (d.flag==1){
+                                return '<span class="layui-btn layui-btn-normal layui-btn-mini">显示</span>';
+                            }else if(d.flag==2){
+                                return '<span class="layui-btn layui-btn-warm layui-btn-mini">删除</span>';
+                            }
+                        }},
+                    {field:'images', title: '图片',templet:function (d) {
+                            if (d.discussImages!='') {
+                                return '<div><a class="layui-btn layui-btn-radius layui-btn-normal" onclick="xadmin.open(\'帖子编号：' + d.discussId + '的图片\',\'http://localhost:8088/shopsystem/discuss/toDiscussPic?discussId=' + d.discussId + '\',820)">查看图片</a></div>'
+                            }else {
+                                return '作者未发布图片';
+                            }
+                        }},
+                    {field:'manage', title: '操作',templet:function (d) {
+                            if (d.flag==1){
+                                return '<div><a class="layui-btn layui-btn-radius layui-btn-danger" onclick=del_discuss(this,' + d.discussId +','+d.flag+ ') href="javascript:;">删除帖子</a></div>'
+                            }else if(d.flag==2){
+                                return '<div><a class="layui-btn layui-btn-radius" onclick=re_discuss(this,' + d.discussId +','+d.flag+ ') href="javascript:;">恢复帖子</a></div>'
+                            }
+
+                        }},
+
+
+
+                ]]
+                ,page: true
+                ,done:function(res, curr, count){
+                    //数据的回调用，可不写
+                }
+            });
+        });
+
+
+    </script>
+
+</head>
+<body>
+<div class="layui-card-body " style="background: #FFFFFF">
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <select lay-filter="flag" name="flag" id="flag">
+                  <option value="0">选择帖子状态</option>
+                  <option value="1">显示</option>
+                  <option value="2">删除</option>
+            </select>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <select lay-filter="typeId" name="typeId" id="typeId">
+                <option value="0">选择帖子板块</option>
+                <option value="1">求二手</option>
+                <option value="2">来互动</option>
+            </select>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="discussId" id="discussId" placeholder="请输入帖子编号" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="nickName" id="nickName" placeholder="请输入作者" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <input type="text" name="key" id="key" placeholder="请输入内容" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn"  lay-submit lay-filter="search_btn" id="search"><i class="layui-icon">&#xe615;</i></button>
+        </div>
+    </form>
+</div>
+<div id="showItem" class="table-responsive" style="width:100%"  >
+    <table class="table table-hover" id="datas" lay-filter="test"></table>
+</div>
+
+
+</body>
+
+<style type="text/css">
+    .layui-table-cell{
+        text-align:center;
+        height: auto;
+        white-space: normal;
+        min-width: 140px;
+        max-width: 245px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .layui-table img{
+        max-width:300px
+    }
+</style>
+
+<script>
+    function del_discuss(obj,id,flag){
+        layer.confirm('确认要删除编号：'+id+'的帖子吗？',function(index){
+            //发异步下架数据
+            $.ajax({
+                type:"get",
+                url:"http://localhost:8088/shopsystem/discuss/updateDiscussFlag/",
+                data:{'discussId':id,'flag':flag},
+                success:function () {
+                    layer.msg('已删除!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                        table.reload('datas', {
+                            page: {
+                                curr: currpage
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('删除失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    function re_discuss(obj,id,flag){
+        layer.confirm('确认要恢复编号：'+id+'的帖子吗？',function(index){
+            //发异步下架数据
+            $.ajax({
+                type:"get",
+                url:"http://localhost:8088/shopsystem/discuss/updateDiscussFlag/",
+                data:{'discussId':id,'flag':flag},
+                success:function () {
+                    layer.msg('已恢复!',{icon:1,time:1000});
+                    layui.use('table', function() {
+                        var table = layui.table;
+                        var currpage = $(".layui-laypage-em").next().html(); //当前页码值
+                        table.reload('datas', {
+                            page: {
+                                curr: currpage
+                            }
+                        });
+                    });
+                },
+                error:function () {
+                    layer.msg('恢复失败!',{icon:1,time:1000});
+                }
+
+
+            });
+        });
+    }
+
+    layui.use(['laydate','form','table'], function(){
+        var form = layui.form;//表单
+        var table = layui.table;//表格
+        form.on('submit(search_btn)', function (data) {
+            var flag = $("#flag").val();
+            var typeId = $("#typeId").val();
+            var discussId = $("#discussId").val();
+            var nickName = $("#nickName").val();
+            var key = $("#key").val();
+            if (discussId==''){
+                discussId=0;
+            }
+            /**
+             * 数据表格的重载功能
+             */
+            table.reload('datas', {
+                method: 'post',
+                url:"http://localhost:8088/shopsystem/discuss/findDiscussesByKey?flag="+flag+'&typeId='+typeId+'&discussId='+discussId+'&nickName='+nickName+'&key='+key,
+                data :{
+                    flag : flag,
+                    typeId : typeId,
+                    discussId : discussId,
+                    nickName : nickName,
+                    key : key
+                },
+                page: {
+                    curr: 1 // 重载后从第一页开始
+                }
+            });
+            return false;
+        });
+    });
+
+
+</script>
+
+
+
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--头部内容显示用户的一些信息-->
+<div id="infoArea" style="width: 90%;height: 120px;" >
+    <div id="searchArea">
+        <form action="http://localhost:8088/shopsystem/commodity/searchComBykey" method="post">
+            <div>
+                <input name="key" type="text" placeholder="请输入要查询的商品" style="border: 2px red solid;padding: 5px;width: 500px;height: 50px;float: left"/>
+            </div>
+            <div>
+                <input type="submit" value="搜索" style="width: 150px;height: 50px;background-color: red;border: 1px red solid;
+                                         text-align: center;font-size: 30px;padding: 5px;line-height:50px; float: left">
+            </div>
+        </form>
+    </div>
+    <!-- 登录用户信息 放入Session-->
+    <div th:if="${session.loginUser!=null}">
+        <div style="float: left;">欢迎<span th:text="${session.loginUser.userName}"></span>,登录！</div>
+        <div style="float: right;">
+            <!--我的（个人信息）-->
+            <div style="float: left;">
+                <!--自己编写实现点击用户头像跳转个人信息页面，可以查询到用户信息且可以进行部分数据修改-->
+                <a href="#"><img th:src="${session.loginUser.profilePhoto}" width="80px" height="80px" style="border-radius: 25%"></a>
+            </div>
+            <!--查询订单、购物车等-->
+            <div style="float: left;">
+                <a th:href="'http://localhost:8088/shopsystem/order/findOrderDesc/'+${session.loginUser.userId}">已购买的宝贝</a>&nbsp;&nbsp;
+                <a href="#">购物车</a>
+            </div>
+        </div>
+    </div>
+</div>
+    <!--使用订单详情信息作为第二段div-->
+<div id="orderArea" style="width: 90%;border: blue 1px solid;">
+    <div>
+      <div style="border: 3px paleturquoise dashed;margin:10px;width: 90%;height: 165px;" >
+              <div>
+                  <span>订单号：</span><span th:text="${order.orderId}"></span>&nbsp;&nbsp;
+                  <span>下单时间：</span><span th:text="${#dates.format(order.orderTime,'yyyy/MM/dd HH:mm:ss')}"></span><br/>
+                  <span>收货人：</span><span th:text="${order.address.linkman}"></span><br/>
+                  <span>收货人电话：</span><span th:text="${order.address.phone}"></span><br/>
+                  <span>订单状态：
+                  <span th:if="${null!=order.getTime}" th:text="${#dates.format(order.getTime,'yyyy/MM/dd HH:mm:ss')}+'(已完成)'" style="color: #00d679;font-size: 20px"></span>
+                      <span th:if="${null==order.getTime}" style="color: red;font-size: 20px">未完成</span>
+                  </span>
+                  <!--<img th:src="${o.}" style="width: 80px;height: 80px;">-->
+              </div>
+          <div style="float: right">
+              <span >总金额：</span><span th:text="${order.total}"></span><span>元</span>
+          </div>
+      </div>
+    </div>
+</div>
+    <!--商品详情区域-->
+    <div style="border: 4px #bce8f1 solid;width: 90%">
+
+       <div th:each="od:${order.orderDetailList}" style="border: 2px red dashed;float: left;width: 90%">
+           <!--图片-->
+           <div style="width: 20%;height: 100px;float: left;">
+              <img th:src="${od.commodity.comImageMain}" width="80px" height="80px;">
+           </div>
+           <!--商品名、单价、购买数量-->
+           <div style="width: 70%;height: 70px;float: left;">
+              <span>商品名：</span><span th:text="${od.commodity.comName}"></span>&nbsp;&nbsp;
+               <span>单价：</span><span th:text="${od.commodity.currentPrice}"></span><br/>
+               <span>购买数量：</span><span th:text="${od.buyCount}"></span>
+           </div>
+           <!--合计-->
+           <div style="width: 70%;height: 30px;float: right;">
+               <span>合计：</span><span th:text="${od.commodity.currentPrice*od.buyCount}"></span><span>元</span>
+           </div>
+       </div>
+    </div>
+    <!--猜你喜欢区域等 其他区域-->
+</body>
+</html>

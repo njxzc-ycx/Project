@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_category"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    android:background="@drawable/white"
+    tools:context="com.njxzc.myshop.CategoryActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_top">
+
+
+    <ImageView
+        android:layout_gravity="center"
+        android:layout_marginLeft="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_chevron_left"
+        android:id="@+id/back"
+        android:onClick="back"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_marginLeft="90dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@drawable/black"
+            android:text="分类"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_category" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/divide"
+        android:id="@id/divide"
+        android:layout_below="@+id/ll_top"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/ll_type"
+        android:orientation="horizontal"
+        android:layout_below="@id/divide">
+
+        <ListView
+            android:background="#F3F4F4"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/lv_typeFirst"
+            android:scrollbars="none"
+            android:divider="#00000000"
+            android:dividerHeight="10dp"
+            android:listSelector="@drawable/transparent">
+        </ListView>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dividerHeight="20px"
+            android:id="@+id/lv_typeSecond"
+            android:scrollbars="none"
+            android:numColumns="3"
+            android:listSelector="@drawable/transparent"
+            android:divider="@null"
+            >
+
+        </ListView>
+
+
+        <!--<GridView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/gv_typeThird"
+            android:scrollbars="none"
+            android:numColumns="3"
+            android:listSelector="@drawable/transparent">
+
+        </GridView>-->
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

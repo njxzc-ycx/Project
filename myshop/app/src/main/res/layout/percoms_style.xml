@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        app:riv_corner_radius="5dip"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/errorpic"
+        android:id="@+id/comImageMain" />
+
+    <TextView
+        android:layout_marginTop="2dp"
+        android:textStyle="bold"
+        android:textColor="@drawable/black"
+        android:text="商品名：xxx"
+        android:textSize="12sp"
+        android:layout_width="151dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:maxEms="14"
+        android:ellipsize="end"
+        android:id="@+id/comName"
+        />
+
+    <LinearLayout
+        android:padding="1sp"
+        android:layout_marginTop="2dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:textSize="12sp"
+            android:textColor="@drawable/red"
+            android:text="￥"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/coin"
+            />
+
+        <TextView
+            android:textSize="12sp"
+            android:textColor="@drawable/red"
+            android:text="xxx"
+            android:layout_width="71dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentPrice"
+            />
+
+        <TextView
+            android:textSize="12sp"
+            android:text="xxx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:id="@+id/collects"
+            />
+
+        <TextView
+            android:textSize="12sp"
+            android:text="人收藏"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:id="@+id/collectsText" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="12sp"
+            android:layout_gravity="center"
+            android:src="@drawable/collectlogo"/>
+    </LinearLayout>
+
+
+</LinearLayout>

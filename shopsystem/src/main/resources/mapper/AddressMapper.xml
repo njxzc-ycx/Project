@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.AddressMapper">
+
+    <resultMap id="baseAddressResultMap" type="Address">
+        <id property="addressId" column="ADDRESS_ID"></id>
+        <result property="userId" column="USER_ID"></result>
+        <result property="address" column="ADDRESS"></result>
+        <result property="area" column="AREA"></result>
+        <result property="phone" column="PHONE"></result>
+        <result property="linkman" column="LINKMAN"></result>
+        <result property="defaultAddress" column="DEFAULT_ADDRESS"></result>
+        <result property="addressNote" column="ADDRESS_NOTE"></result>
+    </resultMap>
+
+    <select id="findAddressCount" parameterType="Integer" resultType="_int">
+        SELECT COUNT(*) FROM address WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="findDefaultAddressByUserId" parameterType="int" resultMap="baseAddressResultMap">
+        SELECT ADDRESS_ID,USER_ID,ADDRESS,AREA,PHONE,LINKMAN,DEFAULT_ADDRESS,ADDRESS_NOTE
+        FROM address WHERE USER_ID = #{VALUE} AND DEFAULT_ADDRESS = 1
+    </select>
+
+    <select id="findFirstAddressCountByUserId" parameterType="int" resultMap="baseAddressResultMap">
+        SELECT ADDRESS_ID,USER_ID,ADDRESS,AREA,PHONE,LINKMAN,DEFAULT_ADDRESS,ADDRESS_NOTE
+        FROM address WHERE USER_ID = #{VALUE} LIMIT 1
+    </select>
+
+    <select id="findAllAddressByUserId" parameterType="int" resultMap="baseAddressResultMap">
+        SELECT ADDRESS_ID,USER_ID,ADDRESS,AREA,PHONE,LINKMAN,DEFAULT_ADDRESS,ADDRESS_NOTE
+        FROM address WHERE USER_ID = #{VALUE}
+    </select>
+
+    <select id="findAddressByAddressId" parameterType="Address" resultMap="baseAddressResultMap">
+        SELECT ADDRESS_ID,USER_ID,ADDRESS,AREA,PHONE,LINKMAN,DEFAULT_ADDRESS,ADDRESS_NOTE
+        FROM address WHERE ADDRESS_ID = #{addressId}
+    </select>
+
+    <insert id="addAddress" parameterType="Address">
+        INSERT INTO address(USER_ID,ADDRESS,PHONE,LINKMAN,DEFAULT_ADDRESS,AREA)
+         VALUES (#{userId},#{address},#{phone},#{linkman},#{defaultAddress},#{area})
+    </insert>
+
+    <update id="updateOtherAddressesNoDefault" parameterType="Integer">
+        UPDATE address SET DEFAULT_ADDRESS = 2 WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateAddress" parameterType="Address">
+        UPDATE address
+        SET ADDRESS = #{address},
+            PHONE = #{phone},
+            LINKMAN = #{linkman},
+            AREA = #{area},
+            DEFAULT_ADDRESS = #{defaultAddress}
+        WHERE ADDRESS_ID = #{addressId}
+    </update>
+
+
+
+
+
+</mapper>

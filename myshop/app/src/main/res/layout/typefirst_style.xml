@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lv_typefirst_drawable_selector"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="10dp"
+    android:paddingRight="0dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tv_typeFirst"
+    android:textColor="@drawable/black"
+    android:textSize="16sp"
+    android:text="电脑周边"/>
+</LinearLayout>

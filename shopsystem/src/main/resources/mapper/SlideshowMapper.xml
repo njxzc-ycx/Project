@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njxzc.shopsystem.mapper.SlideshowMapper">
+
+    <resultMap id="baseSlideshowResultMap" type="Slideshow">
+        <id property="slideshowId" column="SLIDESHOW_ID"></id>
+        <result property="slideshowUrl" column="SLIDESHOW_URL"></result>
+        <result property="slideshowStatus" column="SLIDESHOW_STATUS"></result>
+    </resultMap>
+
+    <select id="findSlideshows" resultMap="baseSlideshowResultMap" parameterType="map">
+        SELECT SLIDESHOW_ID,SLIDESHOW_URL,SLIDESHOW_STATUS FROM  slideshow WHERE SLIDESHOW_STATUS = 1
+    </select>
+
+    <select id="findAllSlideshows" resultMap="baseSlideshowResultMap" parameterType="map">
+        SELECT SLIDESHOW_ID,SLIDESHOW_URL,SLIDESHOW_STATUS FROM  slideshow
+    </select>
+
+    <update id="updateSlideshowStatus" parameterType="_int">
+        UPDATE slideshow SET SLIDESHOW_STATUS = #{slideshowStatus} WHERE  SLIDESHOW_ID = #{slideshowId}
+    </update>
+
+    <select id="findSlideshowedCount" resultType="_int">
+        SELECT COUNT(*) FROM slideshow WHERE SLIDESHOW_STATUS = 1
+    </select>
+
+    <delete id="deleteSlideshow" parameterType="_int">
+        DELETE FROM slideshow WHERE SLIDESHOW_ID = #{slideshowId}
+    </delete>
+
+    <update id="updateSlideshow" parameterType="map">
+        UPDATE slideshow SET SLIDESHOW_URL = #{slideshowUrl} WHERE SLIDESHOW_ID = #{slideshowId}
+    </update>
+
+    <insert id="addSlideshow" parameterType="String" >
+        INSERT INTO slideshow (SLIDESHOW_URL,SLIDESHOW_STATUS) VALUES (#{slideshowUrl},2)
+    </insert>
+</mapper>

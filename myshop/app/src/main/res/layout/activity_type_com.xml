@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_type_com"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="5dp"
+    tools:context="com.njxzc.myshop.TypeComActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/ll_top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_left_black_24dp"
+            android:id="@+id/back"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:onClick="back"/>
+
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/search_et_input"
+            android:drawableLeft="@drawable/searchlogo"
+            android:drawablePadding="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_edittext_drawable"
+            android:textSize="16sp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:text="搜索商品"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/back"
+            android:onClick="toSearch"
+            />
+
+
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshGridView
+        android:paddingTop="10dp"
+        android:paddingLeft="8dp"
+        android:paddingBottom="5dp"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:numColumns="2"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:id="@+id/gv_listTypeCom"
+        android:stretchMode="columnWidth"
+        android:gravity="fill"
+        android:scrollbars="none"
+        ptr:ptrMode="both"
+        android:listSelector="@android:color/transparent"
+        android:layout_below="@+id/ll_top" />
+
+
+
+
+
+</RelativeLayout>

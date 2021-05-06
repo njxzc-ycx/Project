@@ -1,0 +1,57 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>淘校园管理员登录</title>
+
+	<!-- Meta tags -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!-- Style -->
+	<link rel="stylesheet" href="http://localhost:8088/shopsystem/css/style.css" type="text/css" media="all" />
+</head>
+
+<body>
+<!-- login form -->
+<section class="w3l-login">
+	<div class="overlay">
+		<div class="wrapper">
+			<div class="logo">
+				<a class="brand-logo" >淘校园后台管理</a>
+			</div>
+			<div class="form-section">
+				<h3>管理员登录</h3>
+				<h6 th:text="${msg}" style="color: red"></h6>
+				<form action="http://localhost:8088/shopsystem/admin/login" method="post" class="signin-form">
+					<div class="form-input">
+						<input type="text" name="adminName" placeholder="账号" required="" autofocus>
+					</div>
+					<div class="form-input">
+						<input type="password" name="adminPwd" placeholder="密码" required="">
+					</div>
+					<button type="submit" class="btn btn-primary theme-button mt-4">登录</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id='stars'></div>
+	<div id='stars2'></div>
+	<div id='stars3'></div>
+
+	<!-- copyright -->
+	<div class="copy-right">
+		<p>&copy; 2021 All rights reserved | Design by njxzc_ycx</p>
+	</div>
+	<!-- //copyright -->
+</section>
+
+<!-- /login form -->
+</body>
+
+</html>

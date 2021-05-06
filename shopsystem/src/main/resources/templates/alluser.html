@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li th:each="u:${users}" style="float: left">
+        <span th:text="${u.realName}"></span><br/>
+        <span th:text="${#dates.format(u.birth, 'yyyy-MM-dd')}"></span><br/>
+        <span th:if="${u.sex} eq 1" th:text="男"></span>
+        <span th:if="${u.sex} eq 0" th:text="女"></span><br/>
+        <img th:src="'http://localhost:8088/shopsystem/image/'+${u.profilePhoto}" width="150px"
+             height="150px" >
+    </li>
+    <li><a href="http://localhost:8088/shopsystem/admin/loginOut">退出登录</a> </li>
+
+
+
+
+</ul>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="http://localhost:8088/shopsystem/hospital/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8088/shopsystem/hospital/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script href="http://localhost:8088/shopsystem/hospital/js/bootstrap.min.js"></script>
+    <script href="http://localhost:8088/shopsystem/hospital/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/font.css">
+    <link rel="stylesheet" href="http://localhost:8088/shopsystem/css/xadmin.css">
+    <script src="http://localhost:8088/shopsystem/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://localhost:8088/shopsystem/js/xadmin.js"></script>
+</head>
+<body>
+<div class="detail">
+    <span th:if="${orderDetail.status==0}" th:text="'等待买家付款'"></span>
+    <span th:if="${orderDetail.status==1}" th:text="'买家已付款，等待卖家发货'"></span>
+    <span th:if="${orderDetail.status==2}" th:text="'卖家已发货，等待买家收货'"></span>
+    <span th:if="${orderDetail.status==3}" th:text="'买家确认收货，订单交易完成'"></span>
+    <span th:if="${orderDetail.status==4}" th:text="'卖家关闭订单'"></span>
+    <span th:if="${orderDetail.status==5}" th:text="'买家关闭订单'"></span></br>
+    <span th:text="'订单号：'+${orderDetail.orderId}"></span></br>
+    <span th:text="${orderDetail.orderTime}"></span></br>
+
+    <div class="address">
+        <div style="float: left;">
+            <img src="http://localhost:8088/shopsystem/image/locate.png">
+        </div>
+        <div style="float: left">
+            <span th:text="${orderDetail.address.area}"></span><br>
+            <span th:text="${orderDetail.address.address}"></span><br>
+            <span th:text="${orderDetail.address.linkman}"></span>
+            <span th:text="${orderDetail.address.phone}"></span>
+        </div>
+    </div>
+
+    <div class="commodity">
+        <div style="float: left;">
+            <img th:src="${orderDetail.orderDetail.commodity.comImageMain}">
+        </div>
+        <div style="float: left;text-align: left">
+            <span th:text="${orderDetail.orderDetail.commodity.comName}"></span><br><br><br>
+            <span th:text="'￥'+${orderDetail.orderDetail.commodity.currentPrice}"></span>
+            <span th:text="'共'+${orderDetail.orderDetail.buyCount}+'件商品，应付款：'+${orderDetail.total}+'元'"></span>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<style>
+    body{
+        background: #FFFFFF;
+        text-align: center;
+    }
+    .detail{
+        line-height: 30px;
+        padding-top: 20px;
+        font-size: 18px;
+        margin: 0 auto;
+        width: 460px;
+        height: 600px;
+        border-radius: 5px;
+        border: 1px cornflowerblue solid;
+    }
+    .address{
+        height: 100px;
+        margin-top: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+        border-radius: 5px;
+        border:3px #c4e3f3 solid;
+    }
+
+    .address img{
+        margin-top: 30px;
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .commodity{
+        margin: 5px;
+        padding-top: 20px;
+    }
+
+    .commodity img{
+        margin: 5px;
+        width: 110px;
+        height: 110px;
+    }
+</style>
+
+
+</html>

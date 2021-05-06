@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="6dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:id="@+id/ll_top"
+        android:background="@drawable/white"
+        android:weightSum="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_locationaddress"
+            android:textColor="@drawable/black"
+            android:text="点击刷新定位"
+            android:textSize="12dp"
+            android:maxLength="6"
+            android:layout_weight="0.85"
+            android:singleLine="true"
+            android:maxEms="7"
+            android:ellipsize="end"
+            />
+
+        <!--<ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/location"
+            android:layout_marginTop="12dp"
+            />-->
+
+        <TextView
+            android:layout_marginTop="8dp"
+            android:id="@+id/tv_search"
+            android:drawableLeft="@drawable/searchlogo"
+            android:drawablePadding="5dp"
+            android:layout_width="175dp"
+            android:layout_height="30dp"
+            android:background="@drawable/search_edittext_drawable"
+            android:textSize="12sp"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:text="搜索商品"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/back"
+            android:onClick="toSearch"
+            />
+
+        <!--<ImageView
+            android:layout_marginTop="5dp"
+            android:layout_width="190dp"
+            android:layout_height="34dp"
+            android:src="@drawable/search"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/iv_search"
+            />-->
+
+        <ImageView
+            android:layout_marginTop="14dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/categorylogo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分类"
+            android:layout_marginTop="12dp"
+            android:textSize="15dp"
+            android:textColor="@drawable/black"
+            android:id="@+id/tv_category"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/ll_top">
+
+    <com.njxzc.myshop.customview.MyViewPager
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/looper_pager"/>
+        <LinearLayout
+            android:id="@+id/points_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10px">
+            <!--<View
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:background="@drawable/shap_point_selected"/>
+            <View
+                android:layout_width="30px"
+                android:layout_height="30px"
+                android:layout_marginLeft="20px"
+                android:background="@drawable/shap_point_normal"/>-->
+
+        </LinearLayout>
+
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="#ad2d2fda"
+        app:tabSelectedTextColor="#FF000000"
+        android:background="#ffffff"
+        >
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/viewpaper" />
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
